@@ -1,0 +1,129 @@
+body{
+    background-color: rgb(0, 0, 0);
+}
+#logo{
+    border-radius: 25%;
+    display: block;
+    margin: 50px auto;
+}
+#logo_header{
+    border-radius: 25%;
+      width: 60px;        
+    height: 60px;
+}
+h1{
+    color: white;
+    font-size: 20px;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+}
+h2{
+    color: white;
+    font-size: 35px;
+    font-family: Inter, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+   
+}
+h3{
+    color: #009DDF;
+    margin-top: -2px;
+    text-align: left;
+        font-family: Inter, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+
+}
+.contaFonte{
+    text-align: center;
+    border: #ffffff;
+    position: absolute;
+     top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+}
+input[type="text"] {
+  background-color: #000;   /* fundo preto */
+  color: #ffffff;              /* texto branco */
+  border: 2px solid #ffffff;   /* borda cinza escura */
+  border-radius: 15px;       /* cantos arredondados */
+  padding: 10px;
+  font-size: 16px;
+  border-color: #ffffff;
+}
+#login .form-control {
+    width: 400px;
+    max-width: 90vw;
+    margin: 10px auto;
+}
+.logCenter{
+    font-size: larger;
+    text-align: center;
+}
+.btn-info{
+    background-color: rgb(0, 157, 223);
+}
+.btn-maior{
+width: 300px;        
+height: 60px;        
+font-size: 20px;
+border-radius: 15px;
+}
+.imagem{
+    color: #ffffff;
+    border-radius: 10px;
+    display: block;
+    margin: 50px auto;
+    opacity: 0.75
+}
+.imgCentro{
+    background-image: url(../assets/images/OIP.webp);
+    background-size: cover;      /* imagem cobre a div inteira */
+    background-position: center; /* centraliza a imagem */
+    background-repeat: no-repeat;/* evita repetição */
+    width: 300px;
+    height: 200px;     
+    border-radius: 10px;
+    display: block;
+    margin: 50px auto;
+    opacity: 0.75;
+    position: relative;
+}
+.imgCentro2{
+    background-image: url(../assets/images/download.webp);
+    background-size: cover;      /* imagem cobre a div inteira */
+    background-position: center; /* centraliza a imagem */
+    background-repeat: no-repeat;/* evita repetição */
+    width: 300px;
+    height: 200px;     
+    border-radius: 10px;
+    display: block;
+    margin: 50px auto;
+    opacity: 0.75 ;
+    position: relative;
+}
+select{
+  background-color: #000;   /* fundo preto */
+  color: #ffffff;              /* texto branco */
+  border: 2px solid #ffffff;   /* borda cinza escura */
+  border-radius: 15px;       /* cantos arredondados */
+  padding: 10px;
+  font-size: 16px;
+  border-color: #ffffff;
+  width: 425px;
+  max-width: 90vw;
+  margin: 10px auto;
+}
+.centro{
+     display: flex;
+    justify-content: center;    /* centro horizontal */
+    align-items: center;        /* centro vertical */
+    flex-direction: column;     /* coloca elementos em coluna */
+    height: 100vh;              /* altura da tela */
+    text-align: center;   
+}
+.dentro{
+    text-align: center;
+}
+#img{
+    text-align:right;
+    justify-content:right;
+    padding: 10px;
+border-radius: 15%;
+}

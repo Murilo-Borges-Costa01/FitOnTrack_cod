@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href="../../" />
+    <title>Treino</title>
+    <link rel="stylesheet" href="assets/styles/styles.css">
+</head>
+<body>
+<main>
+    <header class="container flex-between">
+        <img
+            src="assets/images/Logo academia neon verde (3).png"
+            alt="Logo"
+            height="50"
+            width="50"
+            class="logo-header"
+        />
+        <img src="assets/images/back.png" alt="Voltar" height="30" width="30" style="cursor: pointer;" data-action="back" />
+    </header>
+    <div class="divider"></div>
+
+    <form id="criar-treino-form">
+        <div class="container mt-xl">
+            <h2 id="treino-form-title" class="text-center">Criar treino</h2>
+
+            <div class="form-group text-center">
+                <img id="treino-imagem-preview" src="assets/images/TREINOS.png" alt="Preview da imagem do treino" width="180" height="120" style="border-radius: var(--radius-md); object-fit: cover; margin-bottom: var(--spacing-md);" />
+                <label class="form-label" for="treino-imagem">Imagem do treino</label>
+                <input id="treino-imagem" type="file" class="form-control" accept=".jpg,.jpeg,.png,image/jpeg,image/png">
+                <p class="mt-sm">Formatos aceitos: JPG e PNG, maximo de 5 MB.</p>
+            </div>
+
+            <div class="form-group">
+                <h3 style="text-align: center;">De um titulo:</h3>
+                <input id="treino-nome" type="text" class="form-control" placeholder="Nome do treino">
+            </div>
+            <div class="form-group">
+                <h3 style="text-align: center;">Escolha o aluno:</h3>
+                <select id="treino-aluno" class="form-control"></select>
+            </div>
+        </div>
+
+        <div class="container mt-xl">
+            <h3 style="text-align: center; margin-bottom: var(--spacing-lg);">Exercicios</h3>
+            <div id="criar-treino-status" class="status-message d-none"></div>
+            <div id="exercicios-grid" class="grid"></div>
+        </div>
+
+        <div class="container text-center mt-xl mb-xl">
+            <button id="criar-treino-submit" class="btn btn-primary btn-lg" type="submit">Salvar</button>
+        </div>
+    </form>
+
+    <div class="divider"></div>
+    <nav class="nav-bottom">
+        <div class="nav-icons">
+            <div class="nav-item" data-route="meusAlunos.html">
+                <img src="assets/images/PERSONAL.png" alt="Alunos" width="40" height="40"/>
+                <p>Alunos</p>
+            </div>
+            <div class="nav-item active">
+                <img src="assets/images/TREINOS-COLORIDO.png" alt="Treinos" width="40" height="40"/>
+                <p>Treinos</p>
+            </div>
+            <div class="nav-item" data-route="PerfildoPersonal.html">
+                <img src="assets/images/PERFIL.png" alt="Perfil" width="40" height="40"/>
+                <p>Perfil</p>
+            </div>
+        </div>
+    </nav>
+</main>
+<script type="module" src="js/pages/criar-treino.js"></script>
+</body>
+</html>

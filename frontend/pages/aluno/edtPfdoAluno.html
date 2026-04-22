@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href="../../" />
+    <title>Editar - Aluno</title>
+    <link rel="stylesheet" href="assets/styles/styles.css">
+</head>
+<body>
+<main>
+    <div class="container mt-lg mb-lg">
+        <img src="assets/images/back.png" alt="Voltar" height="40" width="40" style="cursor: pointer;" data-action="back" />
+    </div>
+
+    <div class="text-center mt-xl mb-xl"><h1>Editar aluno</h1></div>
+
+    <form class="container" id="editar-aluno-form">
+        <div class="form-group text-center">
+            <img id="editar-aluno-imagem-preview" src="frontend/assets/images/Aparecer.png" alt="Preview da imagem do aluno" width="140" height="140" style="border-radius: 50%; object-fit: cover; margin-bottom: var(--spacing-md);" />
+            <label class="form-label" for="editar-aluno-imagem">Foto do aluno</label>
+            <input id="editar-aluno-imagem" type="file" class="form-control" accept=".jpg,.jpeg,.png,image/jpeg,image/png">
+            <p class="mt-sm">Formatos aceitos: JPG e PNG, maximo de 5 MB.</p>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Nome</label>
+            <input id="editar-aluno-nome" type="text" class="form-control" placeholder="Digite seu nome">
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Email</label>
+            <input id="editar-aluno-email" type="email" class="form-control" placeholder="Digite seu email">
+        </div>
+
+        <div class="grid grid-2">
+            <div class="form-group">
+                <label class="form-label">Altura (cm)</label>
+                <input id="editar-aluno-altura" type="number" min="1" step="0.01" class="form-control" placeholder="Ex.: 175">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Massa/Peso (kg)</label>
+                <input id="editar-aluno-massa" type="number" min="1" step="0.01" class="form-control" placeholder="Ex.: 72.5">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Possui algum problema de saude?</label>
+            <input id="editar-aluno-saude" type="text" class="form-control" placeholder="Se possuir, escreva qual">
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Qual e o seu genero?</label>
+            <select id="editar-aluno-genero" class="form-control"></select>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Qual e o seu objetivo?</label>
+            <select id="editar-aluno-objetivo" class="form-control"></select>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Nova senha</label>
+            <input id="editar-aluno-senha" type="password" class="form-control" placeholder="Preencha apenas se quiser alterar">
+        </div>
+
+        <div id="editar-aluno-status" class="status-message d-none"></div>
+
+        <div class="text-center mt-xl mb-xl">
+            <button id="editar-aluno-submit" class="btn btn-primary btn-lg" type="submit">Salvar alteracoes</button>
+        </div>
+    </form>
+</main>
+<script type="module" src="js/pages/editar-aluno.js"></script>
+</body>
+</html>

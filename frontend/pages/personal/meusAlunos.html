@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href="../../" />
+    <title>Meus Alunos</title>
+    <link rel="stylesheet" href="assets/styles/styles.css" />
+  </head>
+  <body data-page-mode="listar">
+    <main>
+      <header class="container flex-between">
+        <button class="btn btn-secondary" type="button">
+          <img src="assets/images/back.png" alt="Voltar" height="30" width="30" style="cursor: pointer;" data-action="back" />
+        </button>
+        <img
+          src="assets/images/Logo academia neon verde (3).png"
+          alt="Logo"
+          height="50"
+          width="50"
+          class="logo-header"
+        />
+        <div style="width: 40px;"></div>
+      </header>
+      <div class="divider"></div>
+
+      <div class="container mt-xl">
+        <div class="flex-between">
+          <h2>Meus Alunos</h2>
+          <div style="display: flex; gap: 10px;">
+            <div class="flx" data-route="avaliacoes-pessoal.html" style="cursor: pointer;">
+              <p>Avaliações</p>
+              <img src="assets/images/star.png" alt="Avaliações" height="30" width="30" onerror="this.style.display='none'" />
+            </div>
+            <div class="flx" data-route="escolherAluno.html">
+              <p>Adicionar</p>
+              <img src="assets/images/add.png" alt="Adicionar" height="30" width="30" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container mt-xl">
+        <div id="alunos-status" class="status-message d-none"></div>
+        <div id="alunos-grid" class="grid"></div>
+      </div>
+
+      <div class="divider"></div>
+      <nav class="nav-bottom">
+        <div class="nav-icons">
+          <div class="nav-item active" data-route="meusAlunos.html">
+            <img src="assets/images/PERSONAL-COLORIDO.png" alt="Início" width="40" height="40"/>
+            <p>Alunos</p>
+          </div>
+          <div class="nav-item" data-route="TreinosdoPersonal.html">
+            <img src="assets/images/TREINOS.png" alt="Treinos" width="40" height="40"/>
+            <p>Treinos</p>
+          </div>
+          <div class="nav-item" data-route="PerfildoPersonal.html">
+            <img src="assets/images/PERFIL.png" alt="Perfil" width="40" height="40"/>
+            <p>Perfil</p>
+          </div>
+        </div>
+      </nav>
+    </main>
+    <script type="module" src="js/pages/personal-alunos.js"></script>
+  </body>
+</html>

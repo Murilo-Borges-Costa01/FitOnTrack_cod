@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    
+        <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <base href="../../" />
+    <title>Recuperar Senha</title>
+    <link rel="stylesheet" href="assets/styles/styles.css" />
+  </head>
+  <body>
+    <main>
+      <div class="container mt-lg mb-lg">
+        <img src="assets/images/back.png" alt="Voltar" height="40" width="40" style="cursor: pointer;" onclick="history.back()" />
+    </div>
+      
+      <!-- Logo -->
+      <img
+        src="assets/images/Logo academia neon verde (3).png"
+        alt=""
+        height="300"
+        width=""
+        class="logo"
+      />
+
+      <!-- Input de e-mail e senha -->
+      <div class="container text-center mt-2xl">
+        <div id="login" class="text-center">
+          <div class="form-group">
+            <label class="form-label">E-mail</label>
+            <input
+              type="email"
+              id="reset-email"
+              class="form-control"
+              placeholder="Digite seu e-mail"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="container text-center mt-2xl">
+        <div id="login" class="text-center">
+          <div class="form-group">
+            <label class="form-label">Nova senha</label>
+            <input
+              type="password"
+              id="reset-nova-senha"
+              class="form-control"
+              placeholder="Digite sua nova senha"
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Confirmar nova senha</label>
+            <input
+              type="password"
+              id="reset-confirmar-senha"
+              class="form-control"
+              placeholder="Confirme sua nova senha"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- Status message -->
+      <div class="container text-center mt-xl">
+        <div id="reset-status" class="status-message d-none"></div>
+      </div>
+
+      <!-- botão entrar -->
+      <div class="container text-center mt-xl">
+        <button id="reset-btn" class="btn btn-primary btn-lg btn-block" type="button">
+          Redefinir Senha
+        </button>
+
+        <a
+          href="index.html"
+          style="text-decoration: none; color: var(--color-primary)"
+        >
+        </a>
+      </div>
+    </main>
+
+    <script type="module" src="js/pages/redefinir-senha.js"></script>
+  </body>
+</html>

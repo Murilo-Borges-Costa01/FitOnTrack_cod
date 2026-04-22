@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minhas Avaliações</title>
+    <link rel="stylesheet" href="../../assets/styles/styles.css">
+    <style>
+        :root {
+            --color-primary: rgb(0, 157, 223);
+            --color-bg: #000000;
+            --color-text: #ffffff;
+            --color-text-secondary: #cccccc;
+            --color-border: rgb(100, 100, 100);
+        }
+
+        body {
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .avaliacoes-container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #111111;
+            border-radius: var(--radius-lg);
+            box-shadow: 0 2px 10px rgba(0, 157, 223, 0.2);
+        }
+
+        .back-link {
+            margin-bottom: 20px;
+        }
+
+        .back-link a {
+            color: var(--color-primary);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+
+        .avaliacoes-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .avaliacoes-header h2 {
+            color: var(--color-text);
+            margin-bottom: 10px;
+        }
+
+        .avaliacoes-header p {
+            color: var(--color-text-secondary);
+        }
+
+        .media-geral {
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: var(--radius-md);
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 5px rgba(0, 157, 223, 0.1);
+            border: 1px solid var(--color-border);
+        }
+
+        .stars-display {
+            font-size: 36px;
+            margin: 10px 0;
+        }
+
+        .media-valor {
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--color-primary);
+        }
+
+        .media-info {
+            color: var(--color-text-secondary);
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .sem-avaliacoes {
+            background: #1a1a1a;
+            padding: 40px;
+            border-radius: var(--radius-md);
+            text-align: center;
+            color: var(--color-text-secondary);
+            margin: 20px 0;
+            border: 1px solid var(--color-border);
+        }
+
+        .avaliacoes-lista {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .avaliacao-card {
+            background: #1a1a1a;
+            padding: 20px;
+            border-radius: var(--radius-md);
+            box-shadow: 0 2px 5px rgba(0, 157, 223, 0.1);
+            transition: all 0.2s;
+            border: 1px solid var(--color-border);
+        }
+
+        .avaliacao-card:hover {
+            border-color: var(--color-primary);
+            box-shadow: 0 4px 10px rgba(0, 157, 223, 0.2);
+        }
+
+        .avaliacao-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+
+        .avaliacao-estrelas {
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+
+        .avaliacao-data {
+            color: var(--color-text-secondary);
+            font-size: 12px;
+        }
+
+        .avaliacao-anonima {
+            color: var(--color-primary);
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .avaliacao-comentario {
+            color: var(--color-text);
+            line-height: 1.6;
+            margin-top: 10px;
+            padding: 10px;
+            background: #0a0a0a;
+            border-left: 3px solid var(--color-primary);
+            border-radius: var(--radius-sm);
+        }
+
+        .avaliacao-comentario.vazio {
+            color: var(--color-text-secondary);
+            font-style: italic;
+        }
+
+        .filtro-ordenacao {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        select {
+            padding: 8px 12px;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            cursor: pointer;
+            background: #1a1a1a;
+            color: var(--color-text);
+        }
+
+        select:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 5px rgba(0, 157, 223, 0.3);
+        }
+
+        select option {
+            background: #1a1a1a;
+            color: var(--color-text);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: var(--color-text-secondary);
+        }
+
+        .spinner {
+            border: 4px solid var(--color-border);
+            border-top: 4px solid var(--color-primary);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="avaliacoes-container">
+        <div class="back-link">
+            <a href="javascript:history.back()">← Voltar</a>
+        </div>
+
+        <div class="avaliacoes-header">
+            <h2>Minhas Avaliações</h2>
+            <p>Veja como seus alunos o avaliam</p>
+        </div>
+
+        <div class="media-geral" id="media-geral">
+            <div class="media-valor" id="media-valor">-</div>
+            <div class="stars-display" id="stars-display"></div>
+            <div class="media-info" id="media-info"></div>
+        </div>
+
+        <div class="filtro-ordenacao">
+            <select id="filtro-ordenacao">
+                <option value="recente">Mais Recentes</option>
+                <option value="antigas">Mais Antigas</option>
+                <option value="maior-estrelas">Maior Classificação</option>
+                <option value="menor-estrelas">Menor Classificação</option>
+            </select>
+        </div>
+
+        <div id="avaliacoes-lista" class="avaliacoes-lista">
+            <div class="loading">
+                <div class="spinner"></div>
+                Carregando avaliações...
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="../../js/pages/avaliacoes-pessoal.js"></script>
+</body>
+</html>

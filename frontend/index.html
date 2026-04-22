@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Inicial</title>
+    <link rel="stylesheet" href="assets/styles/styles.css">
+  </head>
+  <body>
+    <main>
+      <img
+        src="assets/images/Logo academia neon verde (3).png"
+        alt=""
+        height="300"
+        class="logo"
+      />
+
+      <div class="container text-center mt-2xl">
+        <form id="login-form" class="text-center">
+          <div class="form-group">
+            <label class="form-label">E-mail</label>
+            <input
+              id="login-email"
+              type="email"
+              class="form-control"
+              placeholder="Digite seu e-mail"
+            />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Senha</label>
+            <input
+              id="login-senha"
+              type="password"
+              class="form-control"
+              placeholder="Digite sua senha"
+            />
+            <div class="form-group">
+              <a
+                href="pages/cadastro/newsenha.html"
+                style="text-decoration: none; color: var(--color-primary)"
+              >
+                <h3>Esqueceu sua senha?</h3>
+              </a>
+            </div>
+          </div>
+          <div id="login-status" class="status-message d-none"></div>
+        </form>
+      </div>
+
+      <div class="container text-center mt-xl">
+        <button
+          id="login-submit"
+          class="btn btn-primary btn-lg btn-block"
+          type="submit"
+          form="login-form"
+        >
+          Entrar
+        </button>
+        <div class="mt-lg">
+          <a
+            href="pages/cadastro/criarConta.html"
+            style="text-decoration: none; color: var(--color-primary)"
+          >
+            <h3>Criar conta</h3>
+          </a>
+        </div>
+      </div>
+    </main>
+    <script type="module" src="js/pages/login.js"></script>
+  </body>
+</html>
+
+

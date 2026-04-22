@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href="../../" />
+    <title>Cadastro - Personal</title>
+    <link rel="stylesheet" href="assets/styles/styles.css">
+</head>
+<body>
+<main>
+    <div class="container mt-lg mb-lg">
+        <img src="assets/images/back.png" alt="Voltar" height="40" width="40" style="cursor: pointer;" data-action="back" />
+    </div>
+
+    <div class="text-center mt-xl mb-xl"><h1>Cadastro do personal</h1></div>
+
+    <form class="container" id="cadastro-personal-form">
+        <div class="form-group text-center">
+            <img id="personal-imagem-preview" src="assets/images/Aparecer.png" alt="Preview da imagem do personal" width="140" height="140" style="border-radius: 50%; object-fit: cover; margin-bottom: var(--spacing-md);" />
+            <label class="form-label" for="personal-imagem">Foto do personal</label>
+            <input id="personal-imagem" type="file" class="form-control" accept=".jpg,.jpeg,.png,image/jpeg,image/png">
+            <p class="mt-sm">Formatos aceitos: JPG e PNG, maximo de 5 MB.</p>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Numero do CREF</label>
+            <input id="personal-cref" type="text" class="form-control" placeholder="Digite o numero do CREF">
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Nome</label>
+            <input id="personal-nome" type="text" class="form-control" placeholder="Digite seu nome">
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Email</label>
+            <input id="personal-email" type="email" class="form-control" placeholder="Digite seu email">
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Senha</label>
+            <input id="personal-senha" type="password" class="form-control" placeholder="Digite sua senha">
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Repita a Senha</label>
+            <input id="personal-senha-confirmacao" type="password" class="form-control" placeholder="Repita sua senha">
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Certificados</label>
+            <textarea id="personal-certificados" class="form-control" placeholder="Liste seus certificados e credenciais" rows="4"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Especialidade</label>
+            <input id="personal-especialidade" type="text" class="form-control" placeholder="Ex: Musculação, Funcional, CrossFit, etc">
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Qual e o seu genero?</label>
+            <select id="personal-genero" class="form-control"></select>
+        </div>
+
+        <div id="cadastro-personal-status" class="status-message d-none"></div>
+
+        <div class="text-center mt-xl mb-xl">
+            <button id="cadastro-personal-submit" class="btn btn-primary btn-lg" type="submit">Cadastrar</button>
+        </div>
+    </form>
+</main>
+<script type="module" src="js/pages/cadastro-personal.js"></script>
+</body>
+</html>

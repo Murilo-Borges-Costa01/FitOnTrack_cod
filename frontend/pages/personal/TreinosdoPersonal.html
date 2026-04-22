@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href="../../" />
+    <title>Meus Treinos</title>
+    <link rel="stylesheet" href="assets/styles/styles.css">
+</head>
+<body data-role="personal">
+<main>
+    <header class="container flex-between">
+        <img
+            src="assets/images/Logo academia neon verde (3).png"
+            alt="Logo"
+            height="50"
+            width="50"
+            class="logo-header"
+        />
+    </header>
+    <div class="divider"></div>
+
+    <div class="container mt-xl">
+        <div class="flex-between">
+            <h2>Meus Treinos</h2>
+            <div style="display: flex; gap: var(--spacing-md);">
+                <div class="flx" id="anexar-treino-button" style="cursor: pointer;">
+                    <p>Anexar</p>
+                    <img src="assets/images/add.png" alt="Anexar" height="30" width="30" />
+                </div>
+                <div class="flx">
+                    <p>Adicionar</p>
+                    <img id="treino-add-button" src="assets/images/add.png" alt="Adicionar" height="30" width="30" style="cursor: pointer;" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-xl">
+        <div id="treinos-status" class="status-message d-none"></div>
+        <div id="treinos-grid" class="grid"></div>
+    </div>
+
+    <div class="divider"></div>
+    <nav class="nav-bottom">
+        <div class="nav-icons">
+            <div class="nav-item" data-route="meusAlunos.html">
+                <img src="assets/images/PERSONAL.png" alt="Alunos" width="40" height="40"/>
+                <p>Alunos</p>
+            </div>
+            <div class="nav-item active">
+                <img src="assets/images/TREINOS-COLORIDO.png" alt="Treinos" width="40" height="40"/>
+                <p>Treinos</p>
+            </div>
+            <div class="nav-item" data-route="PerfildoPersonal.html">
+                <img src="assets/images/PERFIL.png" alt="Perfil" width="40" height="40"/>
+                <p>Perfil</p>
+            </div>
+        </div>
+    </nav>
+</main>
+<script type="module" src="js/pages/treinos-lista.js"></script>
+</body>
+</html>

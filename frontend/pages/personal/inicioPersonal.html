@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href="../../" />
+    <title>Início - Personal</title>
+    <link rel="stylesheet" href="assets/styles/styles.css" />
+  </head>
+  <body>
+    <main>
+      <header class="container flex-between">
+        <img
+          src="assets/images/Logo academia neon verde (3).png"
+          alt="Logo"
+          height="50"
+          width="50"
+          class="logo-header"
+        />
+      </header>
+      <div class="divider"></div>
+
+      <div class="container text-center mt-2xl">
+        <h2>Bem-vindo!</h2>
+      </div>
+
+      <div class="container mt-xl mb-xl text-center">
+        <p style="color: var(--color-text-secondary); font-size: 1.1em;">
+          Gerencie seus alunos, crie treinos e acompanhe o progresso deles.
+        </p>
+      </div>
+
+      <div class="container mt-2xl">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-lg);">
+          <button class="btn btn-primary btn-lg" data-route="meusAlunos.html" type="button">
+            <img src="assets/images/PERSONAL.png" alt="Alunos" width="40" height="40" style="margin-bottom: var(--spacing-sm);"/>
+            <p>Meus Alunos</p>
+          </button>
+          <button class="btn btn-primary btn-lg" data-route="TreinosdoPersonal.html" type="button">
+            <img src="assets/images/TREINOS.png" alt="Treinos" width="40" height="40" style="margin-bottom: var(--spacing-sm);"/>
+            <p>Meus Treinos</p>
+          </button>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+      <nav class="nav-bottom">
+        <div class="nav-icons">
+          <div class="nav-item active">
+            <img src="assets/images/PERSONAL-COLORIDO.png" alt="Início" width="40" height="40"/>
+            <p>Início</p>
+          </div>
+          <div class="nav-item" data-route="TreinosdoPersonal.html">
+            <img src="assets/images/TREINOS.png" alt="Treinos" width="40" height="40"/>
+            <p>Treinos</p>
+          </div>
+          <div class="nav-item" data-route="PerfildoPersonal.html">
+            <img src="assets/images/PERFIL.png" alt="Perfil" width="40" height="40"/>
+            <p>Perfil</p>
+          </div>
+        </div>
+      </nav>
+    </main>
+    <script type="module" src="js/pages/shell-personal.js"></script>
+  </body>
+</html>

@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    
+        <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <base href="../../" />
+    <title>Perfil do Aluno</title>
+    <link rel="stylesheet" href="assets/styles/styles.css" />
+  </head>
+  <body>
+  <main>
+    <header class="container flex-between">
+        <img
+            src="assets/images/Logo academia neon verde (3).png"
+            alt="Logo"
+            height="50"
+            width="50"
+            class="logo-header"
+        />
+        <img src="assets/images/back.png" alt="Voltar" height="30" width="30" style="cursor: pointer;" data-action="back" />
+    </header>
+    <div class="divider"></div>
+
+    <div class="container text-center mt-2xl">
+        <h2>Perfil do Aluno</h2>
+    </div>
+
+    <div class="container text-center mt-xl mb-xl">
+        <img
+            src="assets/images/8854187dba319e1d6a6592e1daa82c44774c5cca.jpg"
+            alt="Aluno"
+            width="150"
+            height="150"
+            style="border-radius: 50%; object-fit: cover;"
+        />
+    </div>
+
+    <div class="container">
+        <div id="aluno-detalhe-status" class="status-message d-none"></div>
+
+        <div class="form-group">
+            <label class="form-label">Nome</label>
+            <div style="padding: var(--spacing-md); background-color: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius-md);">
+                <p id="aluno-detalhe-nome">Carregando...</p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Email</label>
+            <div style="padding: var(--spacing-md); background-color: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius-md);">
+                <p id="aluno-detalhe-email">Carregando...</p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Altura</label>
+            <div style="padding: var(--spacing-md); background-color: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius-md);">
+                <p id="aluno-detalhe-altura">Carregando...</p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Massa</label>
+            <div style="padding: var(--spacing-md); background-color: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius-md);">
+                <p id="aluno-detalhe-massa">Carregando...</p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Problemas de Saude</label>
+            <div style="padding: var(--spacing-md); background-color: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius-md);">
+                <p id="aluno-detalhe-saude">Carregando...</p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Genero</label>
+            <div style="padding: var(--spacing-md); background-color: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius-md);">
+                <p id="aluno-detalhe-genero">Carregando...</p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Objetivo</label>
+            <div style="padding: var(--spacing-md); background-color: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius-md);">
+                <p id="aluno-detalhe-objetivo">Carregando...</p>
+            </div>
+        </div>
+
+        <div style="display: flex; justify-content: center; margin-top: var(--spacing-2xl); margin-bottom: var(--spacing-2xl);">
+            <button id="desvincular-aluno-btn" class="btn btn-danger btn-lg" type="button" style="display: none;">Desvincular Aluno</button>
+        </div>
+    </div>
+
+      <nav class="nav-bottom">
+        <div class="nav-icons">
+          <div class="nav-item" data-route="meusAlunos.html">
+            <img src="assets/images/PERSONAL.png" alt="Início" width="40" height="40"/>
+            <p>Início</p>
+          </div>
+          <div class="nav-item" data-route="TreinosdoPersonal.html">
+            <img src="assets/images/TREINOS.png" alt="Treinos" width="40" height="40"/>
+            <p>Treinos</p>
+          </div>
+          <div class="nav-item" data-route="PerfildoPersonal.html">
+            <img src="assets/images/PERFIL.png" alt="Perfil" width="40" height="40"/>
+            <p>Perfil</p>
+          </div>
+        </div>
+      </nav>
+  </main>
+  <script type="module" src="js/pages/aluno-detalhe.js"></script>
+  </body>
+</html>
+
+
+
+

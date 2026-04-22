@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href="../../" />
+    <title>Meu Personal</title>
+    <link rel="stylesheet" href="assets/styles/styles.css" />
+</head>
+<body>
+<main>
+    <header class="container flex-between">
+        <img
+            src="assets/images/Logo academia neon verde (3).png"
+            alt="Logo"
+            height="50"
+            width="50"
+            class="logo-header"
+        />
+        <img src="assets/images/back.png" alt="Voltar" height="30" width="30" style="cursor: pointer;" data-action="back" />
+    </header>
+    <div class="divider"></div>
+
+    <div class="container text-center mt-2xl">
+        <h2>Meu Personal</h2>
+    </div>
+
+    <div class="container mt-xl">
+        <div id="perfil-personal-status" class="status-message d-none"></div>
+        <div id="perfil-personal-container"></div>
+    </div>
+
+    <div class="divider"></div>
+    <nav class="nav-bottom">
+        <div class="nav-icons">
+            <div class="nav-item active">
+                <img src="assets/images/PERSONAL-COLORIDO.png" alt="Personal" width="40" height="40"/>
+                <p>Personal</p>
+            </div>
+            <div class="nav-item" data-route="treinos_aluno.html">
+                <img src="assets/images/TREINOS.png" alt="Treinos" width="40" height="40"/>
+                <p>Treinos</p>
+            </div>
+            <div class="nav-item" data-route="perfil-aluno.html">
+                <img src="assets/images/PERFIL.png" alt="Perfil" width="40" height="40"/>
+                <p>Meu Perfil</p>
+            </div>
+        </div>
+    </nav>
+</main>
+<script type="module" src="js/pages/perfil-personal-aluno.js"></script>
+</body>
+</html>

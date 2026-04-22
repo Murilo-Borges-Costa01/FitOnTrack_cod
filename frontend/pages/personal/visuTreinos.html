@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href="../../" />
+    <title>Visualizar Treino</title>
+    <link rel="stylesheet" href="assets/styles/styles.css" />
+  </head>
+  <body data-role="personal">
+    <main>
+      <header class="container flex-between">
+        <button class="btn btn-secondary" type="button">
+          <img src="assets/images/back.png" alt="Voltar" height="30" width="30" style="cursor: pointer;" data-action="back" />
+        </button>
+        <img
+          src="assets/images/Logo academia neon verde (3).png"
+          alt="Logo"
+          height="50"
+          width="50"
+          class="logo-header"
+        />
+        <div style="width: 40px;"></div>
+      </header>
+      <div class="divider"></div>
+
+      <div class="container mt-xl">
+        <div class="flex-between gap-md">
+          <h2 id="treino-detalhe-titulo">Treino</h2>
+          <div class="flex-between gap-md">
+            <button id="treino-editar-button" class="btn btn-secondary d-none" type="button">Editar</button>
+            <button id="treino-deletar-button" class="btn btn-danger d-none" type="button" style="background-color: #dc3545;">Deletar</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="container mt-xl mb-xl">
+        <div class="text-center mb-lg">
+          <img id="treino-detalhe-imagem" src="assets/images/TREINOS.png" alt="Imagem do treino" width="220" height="140" style="border-radius: var(--radius-md); object-fit: cover;" />
+        </div>
+        <div id="treino-detalhe-status" class="status-message d-none"></div>
+        <div id="treino-detalhe-grid" class="grid"></div>
+      </div>
+
+      <div class="divider"></div>
+      <nav class="nav-bottom">
+        <div class="nav-icons">
+          <div class="nav-item" data-route="meusAlunos.html">
+            <img src="assets/images/PERSONAL.png" alt="Personal" width="40" height="40"/>
+            <p>Personal</p>
+          </div>
+          <div class="nav-item active">
+            <img src="assets/images/TREINOS-COLORIDO.png" alt="Treinos" width="40" height="40"/>
+            <p>Treinos</p>
+          </div>
+          <div class="nav-item" data-route="PerfildoPersonal.html">
+            <img src="assets/images/PERFIL.png" alt="Perfil" width="40" height="40"/>
+            <p>Perfil</p>
+          </div>
+        </div>
+      </nav>
+    </main>
+    <script type="module" src="js/pages/treino-detalhe.js"></script>
+  </body>
+</html>

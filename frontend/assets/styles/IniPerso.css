@@ -1,0 +1,101 @@
+body{
+    background-color: black;
+}
+.lnh{
+    height: 1px;
+    background-color: rgb(100, 100, 100);
+}
+#logo1{
+   border-radius: 100%; 
+}
+#flc{
+    justify-content: center;
+    text-align: center;
+    display: flex;
+    gap: 10px;
+    padding: -20px;
+}
+#flc img{
+    margin-top: 8px;
+}
+#cor{
+    color: rgb(0, 157, 223);
+    margin-top: 3px;
+    padding: -30px;
+}
+p{
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    margin-top: 15px;
+    font-size: 20px;
+}
+#am{
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    margin-left: auto;
+}
+#img{
+padding: 10px;
+border-radius: 15%;
+}
+#gml{
+   color: white; 
+   font-size: 20px;
+   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+   padding: 75px;
+   margin-top:-97px;
+   margin-left:65px;
+}
+#esc{
+    padding: 5px;
+    font-size: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: rgb(0, 157, 223);
+    margin-top:-135px;
+    
+}
+.ft1{
+display: flex;
+flex-direction: column;
+}
+#esc1{
+    padding: 5px;
+    font-size: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: rgb(0, 157, 223);
+    margin-top:-135px;
+    
+}
+h1{
+    color: rgb(0, 157, 223);
+    margin-left: 130px;
+}
+.icons{
+display: flex;
+justify-content: space-between;
+
+}
+#icn1{
+    padding: 10px;
+    gap: -50px;
+}
+#icn2{
+padding: 10px;
+}
+#icn3{
+
+    padding: 10px;
+}
+#cnf{
+ margin-left:3px;
+ color: white;
+}
+#rp{
+color: rgb(255, 255, 255);
+margin-left: -7px;
+}
+ #rma{
+    color: rgb(0, 157, 223);
+    margin-left: -7px ;
+ }
