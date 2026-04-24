@@ -1,10 +1,17 @@
 import { Exercicio } from "../models/exercicioM.js";
 import { Genero } from "../models/generoM.js";
+import { Objetivo } from "../models/objetivoM.js";
 import { GrupoMuscular } from "../models/grupoMuscularM.js";
 
 const generosPadrao = [
     { nome: "masculino" },
     { nome: "feminino" }
+];
+
+const objetivosPadrao = [
+    { nome: "emagrecer" },
+    { nome: "ganhar_massa" },
+    { nome: "manter_saude" }
 ];
 
 const gruposMuscularesPadrao = [
@@ -205,6 +212,15 @@ export async function seedConteudoPadrao() {
             Genero.findOrCreate({
                 where: { nome: genero.nome },
                 defaults: genero
+            })
+        )
+    );
+
+    await Promise.all(
+        objetivosPadrao.map((objetivo) =>
+            Objetivo.findOrCreate({
+                where: { nome: objetivo.nome },
+                defaults: objetivo
             })
         )
     );
