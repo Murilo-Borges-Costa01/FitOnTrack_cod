@@ -1,112 +1,105 @@
 # FitOnTrack - Backend API
 
-## 📋 Descrição
-API RESTful para sistema de gerenciamento de treinos e avaliações de fitness, desenvolvida com Node.js, Express e Sequelize.
+API REST do FitOnTrack, desenvolvida com Node.js, Express, Sequelize e MySQL.
 
-## 🚀 Como executar
+## Como executar
 
 ### 1. Instalar dependências
 ```bash
 npm install
 ```
 
-### 2. Configurar banco de dados
-- Execute o script `data/banco.sql` no MySQL para criar as tabelas
-- Verifique as configurações em `config/banco.js`
+### 2. Configurar o ambiente
+Crie o arquivo `.env` com base em `.env.example`.
 
-### 3. Popular banco com dados iniciais
+Campos principais:
+- `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASSWORD`, `DB_DIALECT`
+- `SESSION_SECRET`
+- `PORT`
+- `CORS_ALLOWED_ORIGINS`
+
+### 3. Criar o banco de dados
+Execute o script `data/banco.sql` no MySQL para criar a estrutura inicial.
+
+### 4. Iniciar o servidor
 ```bash
-node seed.js
+npm start
 ```
 
-### 4. Iniciar servidor
-```bash
-node app.js
-```
+O backend sobe em `http://localhost:3000` por padrão.
 
-O servidor estará rodando em `http://localhost:3000`
+## Seed automático
 
-## 📊 Dados de Teste Criados pelo Seed
+Ao iniciar o servidor, o backend executa a sincronização das tabelas e popula automaticamente os dados padrão:
 
-### Usuários para Login:
-- **Aluno**: `murilo@email.com` / `senha123`
-- **Personal**: `joao@email.com` / `senha123`
+- gêneros
+- objetivos
+- grupos musculares
+- exercícios com imagens externas preservadas
+- dados de teste de alunos e personais
+- treinos e vínculos iniciais
 
-### Dados Criados:
-- ✅ 2 gêneros (masculino, feminino)
-- ✅ 3 objetivos (emagrecer, ganhar_massa, manter_saude)
-- ✅ 6 grupos musculares (Peito, Perna, Bíceps, Tríceps, Costas, Ombros)
-- ✅ 1 aluno (Murilo Borges)
-- ✅ 1 personal (João Trainer - CREF: CREF12345)
-- ✅ 6 exercícios com descrições
-- ✅ 1 treino "Treino A - Peito e Pernas" com 3 exercícios
-- ✅ 2 avaliações (aluno avaliando personal e vice-versa)
+O seed também é idempotente, então não duplica registros já existentes.
 
-## 🔗 Endpoints da API
+### Logins de teste
+- Aluno: `murilo@email.com` / `senha123`
+- Aluna: `ana@email.com` / `senha123`
+- Personal: `joao@email.com` / `senha123`
+- Personal: `carla@email.com` / `senha123`
+
+## Recursos principais
+
+- Autenticação separada para aluno e personal
+- Sessão com logout via `/api/auth/logout`
+- Upload de imagem para perfis e exercícios
+- CRUD de alunos, personais, exercícios, treinos, avaliações, gêneros, objetivos e grupos musculares
+- Frontend servido pelo próprio Express
+
+## Endpoints principais
+
+### Autenticação
+- `POST /auth/aluno`
+- `POST /auth/personal`
+- `GET /auth/session`
+- `POST /auth/logout`
 
 ### Alunos
-- `GET /alunos` - Listar todos
-- `GET /alunos/:id` - Buscar por ID
-- `POST /alunos` - Criar
-- `PATCH /alunos/:id` - Atualizar
-- `DELETE /alunos/:id` - Deletar
-- `POST /auth/aluno` - Login
-
-### Objetivos
-- `GET /objetivos` - Listar todos
-- `GET /objetivos/:id` - Buscar por ID
-- `POST /objetivos` - Criar
-- `PATCH /objetivos/:id` - Atualizar
-- `DELETE /objetivos/:id` - Deletar
-
-### Gêneros
-- `GET /generos` - Listar todos
-- `GET /generos/:id` - Buscar por ID
-- `POST /generos` - Criar
-- `PATCH /generos/:id` - Atualizar
-- `DELETE /generos/:id` - Deletar
-
-### Grupos Musculares
-- `GET /grupos-musculares` - Listar todos
-- `GET /grupos-musculares/:id` - Buscar por ID
-- `POST /grupos-musculares` - Criar
-- `PATCH /grupos-musculares/:id` - Atualizar
-- `DELETE /grupos-musculares/:id` - Deletar
+- `GET /alunos`
+- `GET /alunos/:id`
+- `POST /alunos`
+- `PATCH /alunos/:id`
+- `DELETE /alunos/:id`
 
 ### Personais
-- `GET /personais` - Listar todos
-- `GET /personais/:id` - Buscar por ID
-- `POST /personais` - Criar
-- `PATCH /personais/:id` - Atualizar
-- `DELETE /personais/:id` - Deletar
-- `POST /auth/personal` - Login
+- `GET /personais`
+- `GET /personais/:id`
+- `POST /personais`
+- `PATCH /personais/:id`
+- `DELETE /personais/:id`
 
 ### Exercícios
-- `GET /exercicios` - Listar todos
-- `POST /exercicios` - Criar
-- `DELETE /exercicios/:id` - Deletar
+- `GET /exercicios`
+- `POST /exercicios`
+- `DELETE /exercicios/:id`
 
 ### Treinos
-- `GET /treinos` - Listar todos
-- `POST /treinos` - Criar
-- `DELETE /treinos/:id` - Deletar
+- `GET /treinos`
+- `POST /treinos`
+- `DELETE /treinos/:id`
 
-### Treino-Exercícios
-- `POST /treino-exercicios` - Adicionar exercício ao treino
+### Outros recursos
+- `GET /objetivos`
+- `GET /generos`
+- `GET /grupos-musculares`
+- `GET /avaliacoes`
+- `POST /avaliacoes`
+- `POST /execucao`
+- `POST /execucao-exercicio`
+- `POST /treino-exercicios`
 
-### Avaliações
-- `GET /avaliacoes` - Listar todas
-- `POST /avaliacoes` - Criar avaliação
+## Testes rápidos
 
-### Execução de Treinos
-- `POST /execucao` - Iniciar execução
-- `POST /execucao-exercicio` - Registrar exercício executado
-
-## 🧪 Testando a API
-
-Use Postman, Insomnia ou curl. Todos os endpoints POST/PATCH precisam de `Content-Type: application/json`.
-
-### Exemplo de criação de aluno:
+Exemplo de criação de aluno:
 ```json
 {
   "nome": "João Silva",
@@ -117,7 +110,7 @@ Use Postman, Insomnia ou curl. Todos os endpoints POST/PATCH precisam de `Conten
 }
 ```
 
-### Exemplo de login:
+Exemplo de login:
 ```json
 {
   "email": "murilo@email.com",
@@ -125,24 +118,23 @@ Use Postman, Insomnia ou curl. Todos os endpoints POST/PATCH precisam de `Conten
 }
 ```
 
-## 🏗️ Arquitetura
+## Estrutura do projeto
 
-- **MVC Pattern**: Models, Controllers, Routes
-- **ORM**: Sequelize para MySQL
-- **Autenticação**: bcrypt para hash de senhas
-- **Validações**: Sequelize validations
-- **Relacionamentos**: Foreign keys e associações
-
-## 📁 Estrutura do Projeto
-
+```text
+backend/
+├── app.js
+├── seed.js
+├── .env.example
+├── config/
+├── controllers/
+├── middlewares/
+├── models/
+├── routes/
+├── utils/
+└── data/
 ```
-FitOnTrack_cod/
-├── app.js                 # Servidor principal
-├── seed.js                # Script de seed
-├── config/banco.js        # Conexão banco
-├── models/                # Modelos Sequelize
-├── controllers/           # Lógica de negócio
-├── routes/               # Definição de rotas
-├── data/banco.sql        # Schema do banco
-└── package.json          # Dependências
-```
+
+## Observações
+
+- O arquivo `.env` não deve ser versionado.
+- Em produção, configure um `SESSION_SECRET` forte e URLs de CORS compatíveis com o domínio publicado.
