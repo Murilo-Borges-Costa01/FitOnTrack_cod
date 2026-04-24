@@ -32,11 +32,10 @@ function showCadastroSuccessAndGoToIndex() {
             <div style="font-size:14px; opacity:.9;">Redirecionando para a tela inicial...</div>
         </div>
     `;
-
     document.body.appendChild(overlay);
 
     window.setTimeout(() => {
-        window.location.href = "/frontend/index.html";
+        window.location.href = "/";
     }, 1400);
 }
 
@@ -91,7 +90,6 @@ async function handleSubmit(event) {
         setFlashMessage("Cadastro realizado com sucesso. Voce ja pode entrar.", "success");
         form.reset();
         imagePreviewController.reset("/frontend/assets/images/Aparecer.png");
-        await carregarOpcoes();
         showCadastroSuccessAndGoToIndex();
     } catch (error) {
         setStatus(statusElement, error.message || "Nao foi possivel cadastrar o personal.", "error");

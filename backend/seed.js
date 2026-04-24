@@ -8,6 +8,7 @@ import { Objetivo } from './models/objetivoM.js';
 import { Personal } from './models/personalM.js';
 import { Treino } from './models/treinoM.js';
 import { TreinoExercicio } from './models/treinoExercicioM.js';
+import { seedConteudoPadrao } from './utils/seedConteudoPadrao.js';
 
 async function seedDatabase() {
     try {
@@ -44,6 +45,8 @@ async function seedDatabase() {
             where: { nome: 'manter_saude' },
             defaults: { nome: 'manter_saude' }
         });
+
+        await seedConteudoPadrao();
 
         const gruposMusculares = await Promise.all([
             GrupoMuscular.findOrCreate({ where: { nome: 'Peito' }, defaults: { nome: 'Peito' } }),
@@ -109,51 +112,93 @@ async function seedDatabase() {
         console.log('🏋️ Criando exercícios...');
         const exercicios = await Promise.all([
             Exercicio.findOrCreate({
-                where: { nome: 'Supino reto' },
+                where: { nome: 'Supino Reto' },
                 defaults: {
-                    nome: 'Supino reto',
-                    descricao: 'Exercício para peito com barra ou halteres.',
-                    grupo_muscular_id: grupoPorNome.Peito.id
+                    nome: 'Supino Reto',
+                    descricao: 'Deite-se no banco reto com os pés apoiados no chão. Segure a barra com as mãos um pouco mais afastadas que a largura dos ombros. Abaixe a barra em direção ao peito e suba com força.',
+                    grupo_muscular_id: grupoPorNome.Peito.id,
+                    imagem: 'https://www.mundoboaforma.com.br/wp-content/uploads/2020/12/supino-inclinado-com-halteres.gif'
                 }
             }),
             Exercicio.findOrCreate({
-                where: { nome: 'Agachamento livre' },
+                where: { nome: 'Rosca Direta' },
                 defaults: {
-                    nome: 'Agachamento livre',
-                    descricao: 'Movimento composto para membros inferiores.',
-                    grupo_muscular_id: grupoPorNome.Perna.id
+                    nome: 'Rosca Direta',
+                    descricao: 'De pé, com os pés apoiados no chão. Mantenha os cotovelos junto ao corpo e flexione os antebração para cima levantando a barra até a altura dos ombros.',
+                    grupo_muscular_id: grupoPorNome.Bíceps.id,
+                    imagem: 'https://www.hipertrofia.org/blog/wp-content/uploads/2024/02/barbell-standing-close-grip-curl.gif'
                 }
             }),
             Exercicio.findOrCreate({
-                where: { nome: 'Rosca direta' },
+                where: { nome: 'Agachamento Livre' },
                 defaults: {
-                    nome: 'Rosca direta',
-                    descricao: 'Exercício clássico para bíceps.',
-                    grupo_muscular_id: grupoPorNome.Bíceps.id
+                    nome: 'Agachamento Livre',
+                    descricao: 'De pé com os pés afastados na largura dos ombros. Coloque a barra sobre os ombros e abaixe dobrando os joelhos até formar um ângulo de 90 graus. Retorne à posição inicial.',
+                    grupo_muscular_id: grupoPorNome.Perna.id,
+                    imagem: 'https://static.wixstatic.com/media/2edbed_3221a5a1ebd247fe89d72b84e28c4520~mv2.webp'
                 }
             }),
             Exercicio.findOrCreate({
-                where: { nome: 'Tríceps corda' },
+                where: { nome: 'Rosca Francês' },
                 defaults: {
-                    nome: 'Tríceps corda',
-                    descricao: 'Foco na extensão de cotovelo para tríceps.',
-                    grupo_muscular_id: grupoPorNome.Tríceps.id
+                    nome: 'Rosca Francês',
+                    descricao: 'De pé ou sentado, com a barra/haltere acima da cabeça. Flexione os cotovelos para baixar o peso atrás da cabeça, mantendo os cotovelos estáticos, depois estenda.',
+                    grupo_muscular_id: grupoPorNome.Tríceps.id,
+                    imagem: 'https://www.hipertrofia.org/blog/wp-content/uploads/2025/01/triceps-frances-com-um-halter-sentado.gif'
                 }
             }),
             Exercicio.findOrCreate({
-                where: { nome: 'Puxada alta' },
+                where: { nome: 'Puxada Frontal' },
                 defaults: {
-                    nome: 'Puxada alta',
-                    descricao: 'Ativa dorsais e auxilia na postura.',
-                    grupo_muscular_id: grupoPorNome.Costas.id
+                    nome: 'Puxada Frontal',
+                    descricao: 'Sentado na máquina, segure a barra com os braços estendidos. Puxe a barra em direção ao peito, mantendo os cotovelos para baixo, depois retorne controlado.',
+                    grupo_muscular_id: grupoPorNome.Costas.id,
+                    imagem: 'https://www.mundoboaforma.com.br/wp-content/uploads/2020/12/costas-puxada-aberta-com-barra-no-pulley.gif'
                 }
             }),
             Exercicio.findOrCreate({
-                where: { nome: 'Desenvolvimento ombro' },
+                where: { nome: 'Desenvolvimento de Ombros' },
                 defaults: {
-                    nome: 'Desenvolvimento ombro',
-                    descricao: 'Fortalece deltoides e estabilidade do tronco.',
-                    grupo_muscular_id: grupoPorNome.Ombros.id
+                    nome: 'Desenvolvimento de Ombros',
+                    descricao: 'Sentado, com as mãos segurando halteres ao nível dos ombros. Empurre os halteres para cima até a extensão completa dos cotovelos, depois abaixe em controle.',
+                    grupo_muscular_id: grupoPorNome.Ombros.id,
+                    imagem: 'https://i0.wp.com/omelhortreino.com.br/wp-content/uploads/2025/03/Desenvolvimento-de-Ombro-no-Banco-com-Halteres-1.gif?resize=500%2C500&ssl=1'
+                }
+            }),
+            Exercicio.findOrCreate({
+                where: { nome: 'Leg Press' },
+                defaults: {
+                    nome: 'Leg Press',
+                    descricao: 'Sentado na máquina com os pés na plataforma na largura dos ombros. Flexione os joelhos para 90 graus e estenda as pernas completamente, sem trancar os joelhos.',
+                    grupo_muscular_id: grupoPorNome.Perna.id,
+                    imagem: 'https://media.tenor.com/xJh_-w_SxckAAAAM/leg-press.gif'
+                }
+            }),
+            Exercicio.findOrCreate({
+                where: { nome: 'Barra Fixa' },
+                defaults: {
+                    nome: 'Barra Fixa',
+                    descricao: 'Pendurado na barra com as mãos afastadas um pouco mais que a largura dos ombros. Puxe o corpo para cima dobrando os cotovelos, tentando levar o queixo acima da barra.',
+                    grupo_muscular_id: grupoPorNome.Costas.id,
+                    imagem: 'https://www.hipertrofia.org/blog/wp-content/uploads/2023/08/barra-fixa-negativa.gif'
+                }
+            }),
+            Exercicio.findOrCreate({
+                where: { nome: 'Extensão de Perna' },
+                defaults: {
+                    nome: 'Extensão de Perna',
+                    descricao: 'Sentado na máquina com as pernas sob o acolchoamento. Estenda as pernas para cima até a extensão completa, sem trancar os joelhos no final do movimento.',
+                    grupo_muscular_id: grupoPorNome.Perna.id,
+                    imagem: 'https://media.tenor.com/bqKtsSuqilQAAAAM/gym.gif'
+                }
+            }),
+            Exercicio.findOrCreate({
+                where: { nome: 'Crucifixo Inclinado' },
+                defaults: {
+                    nome: 'Crucifixo Inclinado',
+                    descricao: 'Deitado em banco inclinado, segure halteres com os braços ligeiramente flexionados. Abra os braços em movimento de arco, unindo os halteres acima do peito, depois retorne.',
+                    grupo_muscular_id: grupoPorNome.Peito.id,
+                    imagem: 'https://www.hipertrofia.org/blog/wp-content/uploads/2020/06/dumbbell-incline-fly.gif'
                 }
             })
         ]);
@@ -220,7 +265,7 @@ async function seedDatabase() {
         console.log('• Personal: joao@email.com / senha123');
         console.log('• Personal: carla@email.com / senha123');
         console.log('\n🏋️ Exercícios e treinos criados:');
-        console.log('• 6 exercícios');
+        console.log('• 10 exercícios');
         console.log('• 2 treinos com exercícios vinculados');
         console.log('\n🎯 Execute: npm start');
         console.log('Teste login: POST /auth/aluno ou POST /auth/personal');

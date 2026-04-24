@@ -20,6 +20,7 @@ import treinoRoutes from "./routes/treino.js";
 import uploadRoutes from "./routes/upload.js";
 import { tratarErroUpload } from "./middlewares/uploadImagem.js";
 import { ensureSchemaCompatibility } from "./utils/schemaSync.js";
+import { seedConteudoPadrao } from "./utils/seedConteudoPadrao.js";
 
 const app = express();
 const port = 3000;
@@ -114,6 +115,7 @@ app.get("/", (req, res) => {
 
 sequelize.sync({ alter: false })
     .then(() => ensureSchemaCompatibility())
+    .then(() => seedConteudoPadrao())
     .then(() => {
         console.log("Sincronizacao do banco concluida.");
         app.listen(port, () => {
