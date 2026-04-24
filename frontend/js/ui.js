@@ -1,3 +1,5 @@
+import { clearSelectedAlunoId, clearSession, getSession, redirectTo } from "./session.js";
+
 export function setStatus(element, message, type = "info") {
   if (!element) return;
 
@@ -65,12 +67,46 @@ export function valueOrFallback(value, fallback = "Nao informado") {
 }
 
 export function attachBackNavigation() {
+  attachLogoHomeNavigation();
+
   document.querySelectorAll("[data-action='back']").forEach((element) => {
+    const wrapperButton = element.closest("button");
+    if (wrapperButton) {
+      wrapperButton.classList.add("back-button-wrapper");
+    }
+
     element.addEventListener("click", () => window.history.back());
   });
 }
 
 export function attachRouteTargets() {
+  attachHeaderLogoutButton();
+  attachLogoHomeNavigation();
+
+  document.querySelectorAll("[data-action='logout']").forEach((element) => {
+    if (element.dataset.logoutBound === "true") {
+      return;
+    }
+
+    element.dataset.logoutBound = "true";
+    element.addEventListener("click", async () => {
+      element.setAttribute("disabled", "disabled");
+
+      try {
+        await fetch("/api/auth/logout", {
+          method: "POST",
+          credentials: "include",
+        });
+      } catch {
+        // Mesmo com falha na API, limpa sessão local para garantir saída no cliente.
+      } finally {
+        clearSession();
+        clearSelectedAlunoId();
+        redirectTo("index.html");
+      }
+    });
+  });
+
   document.querySelectorAll("[data-route]").forEach((element) => {
     element.style.cursor = element.style.cursor || "pointer";
     element.addEventListener("click", () => {
@@ -81,6 +117,57 @@ export function attachRouteTargets() {
       }
     });
   });
+}
+
+function getHomeRouteForRole(role) {
+  return role === "personal"
+    ? "/pages/personal/meusAlunos.html"
+    : "/pages/aluno/PerfildoAluno.html";
+}
+
+function attachLogoHomeNavigation() {
+  const pathname = window.location.pathname.replace(/\\/g, "/").toLowerCase();
+  const session = getSession();
+  const role = session?.role || (pathname.includes("/pages/personal/") ? "personal" : "aluno");
+  const homeRoute = getHomeRouteForRole(role);
+
+  document.querySelectorAll(".logo-header, #logo1").forEach((logo) => {
+    if (logo.dataset.logoHomeBound === "true") {
+      return;
+    }
+
+    logo.dataset.logoHomeBound = "true";
+    logo.style.cursor = "pointer";
+    logo.addEventListener("click", () => {
+      redirectTo(homeRoute);
+    });
+  });
+}
+
+function attachHeaderLogoutButton() {
+  const pathname = window.location.pathname.replace(/\\/g, "/").toLowerCase();
+  const isAlunoPage = pathname.includes("/pages/aluno/");
+  const isPersonalPage = pathname.includes("/pages/personal/");
+
+  if (!isAlunoPage && !isPersonalPage) {
+    return;
+  }
+
+  const header = document.querySelector("header.container.flex-between");
+  if (!header || header.querySelector(".header-logout-btn")) {
+    return;
+  }
+
+  header.classList.add("header-with-logout");
+
+  const logoutButton = document.createElement("button");
+  logoutButton.type = "button";
+  logoutButton.className = "btn header-logout-btn";
+  logoutButton.dataset.action = "logout";
+  logoutButton.setAttribute("aria-label", "Sair da conta");
+  logoutButton.textContent = "Sair";
+
+  header.appendChild(logoutButton);
 }
 
 export function resolveImagePath(

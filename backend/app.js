@@ -1,3 +1,4 @@
+import "dotenv/config";
 import cors from "cors";
 import express from "express";
 import session from "express-session";
@@ -23,7 +24,11 @@ import { ensureSchemaCompatibility } from "./utils/schemaSync.js";
 import { seedConteudoPadrao } from "./utils/seedConteudoPadrao.js";
 
 const app = express();
-const port = 3000;
+const port = Number(process.env.PORT || 3000);
+const allowedOrigins = String(process.env.CORS_ALLOWED_ORIGINS || "")
+    .split(",")
+    .map((origin) => origin.trim())
+    .filter(Boolean);
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -40,8 +45,10 @@ app.use(cors({
         }
 
         const allowed =
-            /^http:\/\/localhost:\d+$/.test(origin) ||
-            /^http:\/\/127\.0\.0\.1:\d+$/.test(origin);
+            allowedOrigins.length > 0
+                ? allowedOrigins.includes(origin)
+                : /^http:\/\/localhost:\d+$/.test(origin) ||
+                  /^http:\/\/127\.0\.0\.1:\d+$/.test(origin);
 
         if (allowed) {
             return callback(null, true);
@@ -59,8 +66,8 @@ app.use(session({
     saveUninitialized: false,
     cookie: {
         httpOnly: true,
-        sameSite: "lax",
-        secure: false
+        sameSite: process.env.SESSION_COOKIE_SAME_SITE || "lax",
+        secure: process.env.NODE_ENV === "production"
     }
 }));
 
