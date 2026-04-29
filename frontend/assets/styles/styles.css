@@ -914,3 +914,31 @@ main {
 .is-loading {
   opacity: 0.7;
 }
+
+/* Toast flutuante usado para mensagens rápidas ao usuário */
+.floating-toast {
+  position: fixed;
+  left: 50%;
+  top: 22px;
+  transform: translateX(-50%);
+  z-index: 99999;
+  padding: 12px 18px;
+  border-radius: 12px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  box-shadow: 0 8px 22px rgba(0,0,0,0.6);
+  max-width: min(92vw, 520px);
+  text-align: center;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.floating-toast--success {
+  background: linear-gradient(90deg,#00f0ff,#00b7ff);
+  color: #001015;
+}
+
+.floating-toast--error {
+  background: linear-gradient(90deg,#ff6b6b,#ff4b4b);
+  color: #fff;
+}

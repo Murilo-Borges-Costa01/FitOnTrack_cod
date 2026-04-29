@@ -37,8 +37,8 @@ function showCadastroSuccessAndGoToIndex() {
     document.body.appendChild(overlay);
 
     window.setTimeout(() => {
-        window.location.href = "/";
-    }, 1400);
+        window.location.href = new URL("../../index.html", window.location.href).href;
+    }, 5000);
 }
 
 async function carregarOpcoes() {

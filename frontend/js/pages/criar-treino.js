@@ -12,11 +12,61 @@ const exerciciosGrid = document.querySelector("#exercicios-grid");
 const imageInput = document.querySelector("#treino-imagem");
 const previewImage = document.querySelector("#treino-imagem-preview");
 let exerciciosDisponiveis = [];
+const SUCCESS_FEEDBACK_MS = 1000;
 const imagePreviewController = attachImageInputPreview({
     input: imageInput,
     previewElement: previewImage,
     fallback: "assets/images/TREINOS.png"
 });
+
+function wait(ms) {
+    return new Promise((resolve) => window.setTimeout(resolve, ms));
+}
+
+function showFloatingMessage(message, type = "success", duration = 1000) {
+    try {
+        const toast = document.createElement("div");
+        toast.textContent = message;
+        toast.setAttribute("role", "status");
+        // classe garante estilos e z-index consistentes
+        toast.className = `floating-toast ${type === "error" ? "floating-toast--error" : "floating-toast--success"}`;
+        // acessibilidade: atualizações rápidas
+        toast.setAttribute("aria-live", "polite");
+
+        const container = document.body || document.documentElement || document;
+        container.appendChild(toast);
+
+        window.setTimeout(() => {
+            toast.style.opacity = "0";
+            toast.style.transform = "translateX(-50%) translateY(-6px)";
+            window.setTimeout(() => toast.remove(), 300);
+        }, duration);
+    } catch (e) {
+        console.warn("showFloatingMessage falhou:", e);
+    }
+}
+function atualizarContadorExerciciosSelecionados() {
+    const totalSelecionados = document.querySelectorAll("input[type='checkbox'][data-exercicio-id]:checked").length;
+    const contador = document.querySelector("#exercicios-contador");
+    const botaoSubmit = document.querySelector("#criar-treino-submit");
+    
+    if (contador) {
+        contador.textContent = `${totalSelecionados} exercicios selecionados`;
+        contador.classList.toggle("contador-ativo", totalSelecionados > 0);
+        console.log("Contador atualizado:", totalSelecionados);
+    } else {
+        console.warn("Elemento #exercicios-contador não encontrado");
+    }
+
+    // Mostrar/esconder botão baseado em seleção
+    if (botaoSubmit) {
+        if (totalSelecionados > 0) {
+            botaoSubmit.style.display = "block";
+        } else {
+            botaoSubmit.style.display = "none";
+        }
+    }
+}
 
 function getTreinoId() {
     return new URL(window.location.href).searchParams.get("treino");
@@ -27,6 +77,8 @@ function isEditMode() {
 }
 
 function renderExercicios(exercicios, configuracoesPorExercicio = {}) {
+    console.log("renderExercicios chamado com", exercicios.length, "exercicios");
+    
     exerciciosGrid.innerHTML = exercicios.map((exercicio) => {
         const configuracao = configuracoesPorExercicio[exercicio.id] || {};
         const estaSelecionado = Boolean(configuracao.exercicio_id || configuracao.series || configuracao.repeticoes);
@@ -71,11 +123,22 @@ function renderExercicios(exercicios, configuracoesPorExercicio = {}) {
         `;
     }).join("");
 
-    document.querySelectorAll("input[type='checkbox'][data-exercicio-id]").forEach((checkbox) => {
-        checkbox.addEventListener("change", () => {
+    console.log("Adicionando listeners aos checkboxes...");
+    const checkboxes = exerciciosGrid.querySelectorAll("input[type='checkbox']");
+    console.log("Total de checkboxes encontrados:", checkboxes.length);
+    
+    checkboxes.forEach((checkbox, index) => {
+        console.log("Adicionando listener ao checkbox", index, "com id", checkbox.dataset.exercicioId);
+        
+        checkbox.addEventListener("change", (e) => {
+            console.log("MUDOU! Checkbox", checkbox.dataset.exercicioId, "agora está", checkbox.checked);
             checkbox.closest(".exercicio-card")?.classList.toggle("card-selected", checkbox.checked);
+            atualizarContadorExerciciosSelecionados();
         });
     });
+
+    console.log("Atualizando contador inicial...");
+    atualizarContadorExerciciosSelecionados();
 }
 
 function getExercisePayloads() {
@@ -197,15 +260,19 @@ async function handleSubmit(event) {
         if (isEditMode()) {
             await api.patch(`/treinos/${getTreinoId()}`, payload);
             setStatus(statusElement, "Treino atualizado com sucesso.", "success");
+                showFloatingMessage("Treino atualizado com sucesso.", "success", SUCCESS_FEEDBACK_MS);
         } else {
             await api.post("/treinos", payload);
             setStatus(statusElement, "Treino criado com sucesso.", "success");
+                showFloatingMessage("Treino criado com sucesso.", "success", SUCCESS_FEEDBACK_MS);
         }
 
         form.reset();
         imagePreviewController.reset("assets/images/TREINOS.png");
         clearSelectedAlunoId();
-        window.setTimeout(() => redirectTo("/pages/personal/TreinosdoPersonal.html"), 1200);
+        await wait(SUCCESS_FEEDBACK_MS);
+        setStatus(statusElement, "");
+        window.setTimeout(() => redirectTo("/pages/personal/TreinosdoPersonal.html"), 150);
     } catch (error) {
         setStatus(statusElement, error.message || "Nao foi possivel salvar o treino.", "error");
     } finally {
@@ -221,3 +288,50 @@ carregarDadosIniciais();
 if (form) {
     form.addEventListener("submit", handleSubmit);
 }
+
+// Controlar botão flutuante ao scroll
+function getNavBottomOffset() {
+    const navBottom = document.querySelector(".nav-bottom");
+    const navHeight = navBottom?.getBoundingClientRect().height || navBottom?.offsetHeight || 0;
+
+    return navHeight + 24;
+}
+
+function atualizarBotaoSalvarResponsivo() {
+    const botaoSubmit = document.querySelector("#criar-treino-submit");
+    if (!botaoSubmit) return;
+
+    const scrollPosition = window.scrollY;
+    const documentHeight = document.documentElement.scrollHeight;
+    const windowHeight = window.innerHeight;
+    const distanceFromBottom = documentHeight - (scrollPosition + windowHeight);
+    const navOffset = getNavBottomOffset();
+    const telaCompacta = window.innerWidth <= 768;
+
+    // Se está a menos de 300px do final, aumentar botão
+    if (distanceFromBottom < 300) {
+        botaoSubmit.style.width = telaCompacta ? "calc(100% - 32px)" : "min(400px, calc(100% - 48px))";
+        botaoSubmit.style.maxWidth = "400px";
+        botaoSubmit.style.padding = telaCompacta ? "13px 22px" : "14px 28px";
+        botaoSubmit.style.fontSize = telaCompacta ? "14px" : "15px";
+        botaoSubmit.style.right = "50%";
+        botaoSubmit.style.transform = "translateX(50%)";
+        botaoSubmit.style.borderRadius = "10px";
+        botaoSubmit.style.bottom = `${navOffset}px`;
+    } else {
+        // Voltar ao tamanho pequeno
+        botaoSubmit.style.width = "auto";
+        botaoSubmit.style.maxWidth = "none";
+        botaoSubmit.style.padding = telaCompacta ? "10px 18px" : "12px 24px";
+        botaoSubmit.style.fontSize = telaCompacta ? "13px" : "14px";
+        botaoSubmit.style.right = telaCompacta ? "16px" : "20px";
+        botaoSubmit.style.transform = "none";
+        botaoSubmit.style.borderRadius = "999px";
+        botaoSubmit.style.bottom = `${navOffset}px`;
+    }
+}
+
+window.addEventListener("scroll", atualizarBotaoSalvarResponsivo);
+window.addEventListener("resize", atualizarBotaoSalvarResponsivo);
+window.addEventListener("orientationchange", atualizarBotaoSalvarResponsivo);
+window.setTimeout(atualizarBotaoSalvarResponsivo, 0);

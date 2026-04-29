@@ -1,4 +1,5 @@
 import { api } from "../api.js";
+import { attachBackNavigation } from "../ui.js";
 import { setStatus } from "../ui.js";
 
 const emailInput = document.querySelector("#reset-email");
@@ -72,6 +73,8 @@ async function redefinirSenha() {
 if (resetBtn) {
   resetBtn.addEventListener("click", redefinirSenha);
 }
+
+attachBackNavigation();
 
 // Permitir Enter para submeter
 if (confirmarSenhaInput) {
