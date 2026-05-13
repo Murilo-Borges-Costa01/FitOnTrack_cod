@@ -1,6 +1,6 @@
 import { api } from "../api.js";
-import { getSession, redirectTo } from "../session.js";
-import { setStatus, valueOrFallback, attachRouteTargets } from "../ui.js";
+import { consumeFlashMessage, getSession, redirectTo } from "../session.js";
+import { setStatus, valueOrFallback, attachRouteTargets, showToast } from "../ui.js";
 
 const grid = document.querySelector("#treinos-grid");
 const statusElement = document.querySelector("#treinos-status");
@@ -70,3 +70,8 @@ if (anexarButton) {
 
 attachRouteTargets();
 carregarTreinos();
+
+const flashMessage = consumeFlashMessage();
+if (flashMessage?.message) {
+    showToast(flashMessage.message, flashMessage.type || "success");
+}

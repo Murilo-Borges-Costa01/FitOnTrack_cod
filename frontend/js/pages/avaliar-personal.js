@@ -1,6 +1,6 @@
 import { api } from "../api.js";
-import { getSession, redirectTo } from "../session.js";
-import { setStatus } from "../ui.js";
+import { consumeFlashMessage, getSession, redirectTo, setFlashMessage } from "../session.js";
+import { setStatus, showToast } from "../ui.js";
 
 // avaliar-personal.js - Logic for student rating their personal trainer
 
@@ -201,17 +201,21 @@ async function enviarAvaliacao(estrelas, comentario) {
         console.log('Resposta:', resposta);
 
         setStatusMessage(statusElement, "Avaliação enviada com sucesso! Obrigado por avaliar.", "success");
+        setFlashMessage("Avaliação enviada com sucesso! Obrigado por avaliar.", "success");
 
         // Limpa form após sucesso
         document.getElementById('form-avaliacao').reset();
         atualizarExibicaoEstrelas(0);
         document.getElementById('estrelas-selecionadas').textContent = 'Selecione uma classificação';
 
-        setTimeout(() => {
-            redirectTo("pages/aluno/meu-personal.html");
-        }, 2000);
+        redirectTo("pages/aluno/meu-personal.html");
     } catch (error) {
         console.error('Erro ao enviar avaliação:', error);
         setStatusMessage(statusElement, error.message || "Erro ao enviar avaliação", "error");
     }
+}
+
+const flashMessage = consumeFlashMessage();
+if (flashMessage?.message) {
+    showToast(flashMessage.message, flashMessage.type || "success");
 }

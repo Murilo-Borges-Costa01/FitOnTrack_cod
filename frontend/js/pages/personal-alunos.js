@@ -1,6 +1,6 @@
 import { api } from "../api.js";
-import { getSession, redirectTo, saveSelectedAlunoId } from "../session.js";
-import { createLookup, setStatus, valueOrFallback, attachBackNavigation, attachRouteTargets, resolveImagePath, setButtonLoading } from "../ui.js";
+import { consumeFlashMessage, getSession, redirectTo, saveSelectedAlunoId, setFlashMessage } from "../session.js";
+import { createLookup, setStatus, valueOrFallback, attachBackNavigation, attachRouteTargets, resolveImagePath, setButtonLoading, showToast } from "../ui.js";
 
 const grid = document.querySelector("#alunos-grid");
 const statusElement = document.querySelector("#alunos-status");
@@ -85,11 +85,8 @@ async function vincularAlunoAPersonal(alunoId) {
         });
 
         setStatus(statusElement, "✅ Aluno vinculado com sucesso!", "success");
-        
-        // Redirecionar após 1.5 segundos
-        setTimeout(() => {
-            redirectTo("/pages/personal/meusAlunos.html");
-        }, 1500);
+        setFlashMessage("Aluno vinculado com sucesso!", "success");
+        redirectTo("/pages/personal/meusAlunos.html");
     } catch (error) {
         setStatus(statusElement, error.message || "Erro ao vincular o aluno", "error");
         setButtonLoading(saveButton, false);
@@ -143,3 +140,8 @@ async function carregarAlunos() {
 attachBackNavigation();
 attachRouteTargets();
 carregarAlunos();
+
+const flashMessage = consumeFlashMessage();
+if (flashMessage?.message) {
+    showToast(flashMessage.message, flashMessage.type || "success");
+}

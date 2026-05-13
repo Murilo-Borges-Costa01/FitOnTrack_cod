@@ -1,5 +1,12 @@
 import { clearSelectedAlunoId, clearSession, getSession, redirectTo } from "./session.js";
 
+const SWEETALERT_STYLE_ID = "sweetalert2-styles";
+const SWEETALERT_SCRIPT_ID = "sweetalert2-script";
+const SWEETALERT_STYLE_PATH = "/frontend/assets/vendor/sweetalert2/sweetalert2.min.css";
+const SWEETALERT_SCRIPT_PATH = "/frontend/assets/vendor/sweetalert2/sweetalert2.all.min.js";
+
+let sweetAlertLoadPromise = null;
+
 export function setStatus(element, message, type = "info") {
   if (!element) return;
 
@@ -11,6 +18,195 @@ export function setStatus(element, message, type = "info") {
 
   element.textContent = message;
   element.className = `status-message status-${type}`;
+}
+
+function ensureSweetAlertResources() {
+  if (window.Swal) {
+    console.log("SweetAlert2 já está carregado (window.Swal existe)");
+    return Promise.resolve(window.Swal);
+  }
+
+  if (!sweetAlertLoadPromise) {
+    console.log("Iniciando carregamento do SweetAlert2...");
+    sweetAlertLoadPromise = new Promise((resolve, reject) => {
+      const existingStyles = document.getElementById(SWEETALERT_STYLE_ID);
+      if (!existingStyles) {
+        console.log("Carregando CSS do SweetAlert2:", SWEETALERT_STYLE_PATH);
+        const styleLink = document.createElement("link");
+        styleLink.id = SWEETALERT_STYLE_ID;
+        styleLink.rel = "stylesheet";
+        styleLink.href = SWEETALERT_STYLE_PATH;
+        styleLink.onerror = () => {
+          console.error("Erro ao carregar CSS do SweetAlert2");
+          reject(new Error("Nao foi possivel carregar os estilos do SweetAlert2."));
+        };
+        document.head.appendChild(styleLink);
+      }
+
+      const existingScript = document.getElementById(SWEETALERT_SCRIPT_ID);
+      if (existingScript && window.Swal) {
+        console.log("Script já existe e Swal está disponível");
+        resolve(window.Swal);
+        return;
+      }
+
+      if (!existingScript) {
+        console.log("Carregando JS do SweetAlert2:", SWEETALERT_SCRIPT_PATH);
+        const script = document.createElement("script");
+        script.id = SWEETALERT_SCRIPT_ID;
+        script.src = SWEETALERT_SCRIPT_PATH;
+        script.defer = false;
+        script.onload = () => {
+          console.log("Script carregado, aguardando window.Swal...");
+          if (window.Swal) {
+            console.log("window.Swal disponível após onload");
+            resolve(window.Swal);
+          } else {
+            const checkInterval = window.setInterval(() => {
+              if (window.Swal) {
+                console.log("window.Swal disponível após polling");
+                window.clearInterval(checkInterval);
+                resolve(window.Swal);
+              }
+            }, 50);
+            window.setTimeout(() => {
+              window.clearInterval(checkInterval);
+              if (!window.Swal) {
+                console.error("SweetAlert2 não inicializou após timeout");
+                reject(new Error("SweetAlert2 não inicializou corretamente."));
+              }
+            }, 3000);
+          }
+        };
+        script.onerror = () => {
+          console.error("Erro ao carregar JS do SweetAlert2");
+          reject(new Error("Nao foi possivel carregar o SweetAlert2."));
+        };
+        document.head.appendChild(script);
+        return;
+      }
+
+      const waitForGlobal = window.setInterval(() => {
+        if (window.Swal) {
+          console.log("window.Swal encontrado após polling");
+          window.clearInterval(waitForGlobal);
+          resolve(window.Swal);
+        }
+      }, 30);
+
+      window.setTimeout(() => {
+        window.clearInterval(waitForGlobal);
+        if (!window.Swal) {
+          console.error("SweetAlert2 não inicializou após timeout final");
+          reject(new Error("SweetAlert2 nao inicializou corretamente."));
+        }
+      }, 5000);
+    }).catch((error) => {
+      console.error("Erro ao carregar SweetAlert2:", error.message);
+      sweetAlertLoadPromise = null;
+      throw error;
+    });
+  }
+
+  return sweetAlertLoadPromise;
+}
+
+export async function showToast(message, type = "success", options = {}) {
+  const { title, timer = 2200, position = "top-end" } = options;
+
+  try {
+    const Swal = await ensureSweetAlertResources();
+    return Swal.fire({
+      icon: type,
+      title: title || message,
+      text: title ? message : "",
+      toast: true,
+      position,
+      timer,
+      timerProgressBar: true,
+      showConfirmButton: false,
+      showCloseButton: true,
+      customClass: {
+        popup: "sweetalert2-toast-popup",
+      },
+    });
+  } catch {
+    if (type === "error") {
+      window.alert(message);
+      return false;
+    }
+
+    window.console.warn("SweetAlert2 indisponivel. Exibindo mensagem simples.", message);
+    return true;
+  }
+}
+
+export async function showSuccessDialog(message, options = {}) {
+  const {
+    title = "Sucesso",
+    confirmButtonText = "OK",
+  } = options;
+
+  console.log("showSuccessDialog: tentando exibir diálogo", { title, message });
+  
+  // Se Swal está disponível globalmente (carregado via tag script no HTML)
+  if (typeof window.Swal !== "undefined") {
+    console.log("showSuccessDialog: usando window.Swal com delay longo");
+    try {
+      // Mostra o diálogo com timer de 15 segundos + barra de progresso
+      await window.Swal.fire({
+        icon: "success",
+        title,
+        text: message,
+        confirmButtonText,
+        confirmButtonColor: "#00b7ff",
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        timer: 15000,
+        timerProgressBar: true,
+      });
+      console.log("showSuccessDialog: diálogo fechado após 15 segundos ou clique");
+      return true;
+    } catch (error) {
+      console.error("showSuccessDialog: erro ao exibir Swal", error);
+      window.alert(message);
+      return true;
+    }
+  }
+
+  // Fallback para alert nativo se SweetAlert2 não estiver disponível
+  console.log("showSuccessDialog: SweetAlert2 não disponível, usando alert()");
+  window.alert(message);
+  return true;
+}
+
+export async function confirmAction(message, options = {}) {
+  const {
+    title = "Confirmar ação",
+    confirmButtonText = "Sim, continuar",
+    cancelButtonText = "Cancelar",
+    icon = "warning",
+  } = options;
+
+  try {
+    const Swal = await ensureSweetAlertResources();
+    const result = await Swal.fire({
+      title,
+      text: message,
+      icon,
+      showCancelButton: true,
+      confirmButtonText,
+      cancelButtonText,
+      reverseButtons: true,
+      focusCancel: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#4b5563",
+    });
+
+    return Boolean(result.isConfirmed);
+  } catch {
+    return window.confirm(message);
+  }
 }
 
 export function setButtonLoading(

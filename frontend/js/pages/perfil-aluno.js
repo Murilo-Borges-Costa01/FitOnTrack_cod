@@ -2,9 +2,11 @@ import { api } from "../api.js";
 import { clearSession, getSession, redirectTo } from "../session.js";
 import {
   attachRouteTargets,
+  confirmAction,
   createLookup,
   setImagePreview,
   setStatus,
+  showToast,
   valueOrFallback,
 } from "../ui.js";
 
@@ -64,8 +66,13 @@ async function carregarPerfil() {
 async function deletarConta() {
   const session = getSession();
   
-  const confirmacao = confirm(
-    "Tem certeza que deseja deletar sua conta? Essa ação é irreversível e todos os seus treinos e avaliações serão deletados."
+  const confirmacao = await confirmAction(
+    "Tem certeza que deseja deletar sua conta? Essa ação é irreversível e todos os seus treinos e avaliações serão deletados.",
+    {
+      title: "Deletar conta",
+      confirmButtonText: "Sim, deletar",
+      cancelButtonText: "Cancelar",
+    }
   );
   
   if (!confirmacao) return;
@@ -75,6 +82,7 @@ async function deletarConta() {
   try {
     await api.delete(`/alunos/${session.user.id}`);
     setStatus(statusElement, "Conta deletada com sucesso! Redirecionando...", "success");
+    showToast("Conta deletada com sucesso.", "success");
     setTimeout(() => {
       clearSession();
       redirectTo("/");

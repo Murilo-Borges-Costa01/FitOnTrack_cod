@@ -1,6 +1,6 @@
 import { api } from "../api.js";
-import { getSession, redirectTo } from "../session.js";
-import { setStatus, valueOrFallback, attachBackNavigation, attachRouteTargets, resolveImagePath } from "../ui.js";
+import { consumeFlashMessage, getSession, redirectTo } from "../session.js";
+import { attachBackNavigation, attachRouteTargets, confirmAction, resolveImagePath, setStatus, showToast, valueOrFallback } from "../ui.js";
 
 const perfilContainer = document.querySelector("#perfil-personal-container");
 const statusElement = document.querySelector("#perfil-personal-status");
@@ -71,7 +71,11 @@ async function desvinculaPersonal(personalId) {
         return;
     }
 
-    const confirmacao = confirm("Tem certeza que deseja desvincular deste personal? Suas informações serão mantidas.");
+    const confirmacao = await confirmAction("Tem certeza que deseja desvincular deste personal? Suas informações serão mantidas.", {
+        title: "Desvincular personal",
+        confirmButtonText: "Sim, desvincular",
+        cancelButtonText: "Cancelar",
+    });
     if (!confirmacao) return;
 
     setStatus(statusElement, "Desvinculando...", "loading");
@@ -129,3 +133,8 @@ async function carregarPersonal() {
 attachBackNavigation();
 attachRouteTargets();
 carregarPersonal();
+
+const flashMessage = consumeFlashMessage();
+if (flashMessage?.message) {
+    showToast(flashMessage.message, flashMessage.type || "success");
+}
