@@ -35,7 +35,7 @@ function showEditSuccessAndGoToProfile() {
     document.body.appendChild(overlay);
 
     window.setTimeout(() => {
-        window.location.href = "http://localhost:5500/frontend/pages/aluno/PerfildoAluno.html";
+        redirectTo("/pages/aluno/PerfildoAluno.html");
     }, 1400);
 }
 

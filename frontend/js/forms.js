@@ -1,17 +1,26 @@
-const allowedImageTypes = new Set(["image/jpeg", "image/png"]);
-const maxImageSizeInBytes = 5 * 1024 * 1024;
+const maxImageSizeInBytes = 10 * 1024 * 1024;
+const allowedImageExtensions = new Set(["jpg", "jpeg", "png", "webp", "gif", "avif", "heic", "heif"]);
+
+function getFileExtension(file) {
+    const name = String(file?.name || "").toLowerCase();
+    const parts = name.split(".");
+    return parts.length > 1 ? parts.pop() : "";
+}
 
 export function validateImageFile(file) {
     if (!file) {
         return null;
     }
 
-    if (!allowedImageTypes.has(file.type)) {
-        return "Selecione uma imagem JPG ou PNG.";
+    const fileType = String(file.type || "");
+    const fileExtension = getFileExtension(file);
+
+    if (!fileType.startsWith("image/") && !allowedImageExtensions.has(fileExtension)) {
+        return "Selecione uma imagem valida.";
     }
 
     if (file.size > maxImageSizeInBytes) {
-        return "A imagem deve ter no maximo 5 MB.";
+        return "A imagem deve ter no maximo 10 MB.";
     }
 
     return null;

@@ -19,6 +19,7 @@ import personalRoutes from "./routes/personal.js";
 import treinoExercicioRoutes from "./routes/treinoExercicio.js";
 import treinoRoutes from "./routes/treino.js";
 import uploadRoutes from "./routes/upload.js";
+import debugRoutes from "./routes/debug.js";
 import { tratarErroUpload } from "./middlewares/uploadImagem.js";
 import { ensureSchemaCompatibility } from "./utils/schemaSync.js";
 import { seedConteudoPadrao } from "./utils/seedConteudoPadrao.js";
@@ -87,6 +88,7 @@ app.use("/api", objetivoRoutes);
 app.use("/api", generoRoutes);
 app.use("/api", grupoMuscularRoutes);
 app.use("/api", uploadRoutes);
+app.use("/api", debugRoutes);
 app.use(tratarErroUpload);
 
 app.get("/api/auth/session", (req, res) => {

@@ -1,0 +1,10 @@
+{
+  "name": "fitontrack",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "npm --prefix backend start",
+    "seed": "npm --prefix backend run seed",
+    "backend": "npm --prefix backend start"
+  }
+}

@@ -8,7 +8,8 @@ const statusElement = document.getElementById('status-message');
 let estrelasSelect = 0;
 
 function resolvePersonalImageUrl(personal) {
-    const fallback = '/frontend/assets/images/Aparecer.png';
+    const apiBase = (api.baseUrl() || 'http://localhost:3000').replace(/\/+$/, '');
+    const fallback = `${apiBase}/assets/images/Aparecer.png`;
     const rawImage = (personal?.foto_perfil || personal?.imagem || '').trim();
 
     if (!rawImage) {
@@ -18,8 +19,6 @@ function resolvePersonalImageUrl(personal) {
     if (/^(https?:|data:|blob:)/i.test(rawImage)) {
         return rawImage;
     }
-
-    const apiBase = (api.baseUrl() || 'http://localhost:3000').replace(/\/+$/, '');
 
     if (rawImage.startsWith('/assets/uploads/')) {
         return `${apiBase}${rawImage}`;
@@ -84,7 +83,7 @@ async function carregarPessoalInfo() {
         pessoalInfoDiv.innerHTML = `
             <img src="${fotoUrl}" 
                  alt="${personal.nome}" 
-                 onerror="this.src='/frontend/assets/images/Aparecer.png'"
+                 onerror="this.src='${resolvePersonalImageUrl({})}'"
                  style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; background: #333;">
             <div>
                 <div class="pessoal-nome">${personal.nome || 'Personal'}</div>
