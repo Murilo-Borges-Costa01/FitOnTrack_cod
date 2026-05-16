@@ -1,6 +1,6 @@
 import { api } from "../api.js";
 import { getSession, redirectTo } from "../session.js";
-import { attachBackNavigation, attachRouteTargets, resolveImagePath, setImagePreview, setStatus, valueOrFallback } from "../ui.js";
+import { attachBackNavigation, attachRouteTargets, confirmAction, resolveImagePath, setImagePreview, setStatus, valueOrFallback } from "../ui.js";
 
 const titleElement = document.querySelector("#treino-detalhe-titulo");
 const statusElement = document.querySelector("#treino-detalhe-status");
@@ -47,7 +47,11 @@ function renderExercicios(exercicios) {
 }
 
 async function deletarTreino(treinoId) {
-    const confirmacao = confirm("Tem certeza que deseja deletar este treino? Essa ação é irreversível.");
+    const confirmacao = await confirmAction("Tem certeza que deseja deletar este treino? Essa ação é irreversível.", {
+        title: "Deletar treino",
+        confirmButtonText: "Sim, deletar",
+        cancelButtonText: "Cancelar",
+    });
     if (!confirmacao) return;
 
     setStatus(statusElement, "Deletando treino...", "loading");

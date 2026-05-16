@@ -1,6 +1,6 @@
 import { api } from "../api.js";
 import { buildFormData, attachImageInputPreview, validateImageFile } from "../forms.js";
-import { clearSelectedAlunoId, getSelectedAlunoId, getSession, redirectTo } from "../session.js";
+import { clearSelectedAlunoId, getSelectedAlunoId, getSession, redirectTo, setFlashMessage } from "../session.js";
 import { attachBackNavigation, attachRouteTargets, populateSelect, resolveImagePath, setButtonLoading, setImagePreview, setStatus, valueOrFallback } from "../ui.js";
 
 const form = document.querySelector("#criar-treino-form");
@@ -12,39 +12,12 @@ const exerciciosGrid = document.querySelector("#exercicios-grid");
 const imageInput = document.querySelector("#treino-imagem");
 const previewImage = document.querySelector("#treino-imagem-preview");
 let exerciciosDisponiveis = [];
-const SUCCESS_FEEDBACK_MS = 1000;
 const imagePreviewController = attachImageInputPreview({
     input: imageInput,
     previewElement: previewImage,
     fallback: "assets/images/TREINOS.png"
 });
 
-function wait(ms) {
-    return new Promise((resolve) => window.setTimeout(resolve, ms));
-}
-
-function showFloatingMessage(message, type = "success", duration = 1000) {
-    try {
-        const toast = document.createElement("div");
-        toast.textContent = message;
-        toast.setAttribute("role", "status");
-        // classe garante estilos e z-index consistentes
-        toast.className = `floating-toast ${type === "error" ? "floating-toast--error" : "floating-toast--success"}`;
-        // acessibilidade: atualizações rápidas
-        toast.setAttribute("aria-live", "polite");
-
-        const container = document.body || document.documentElement || document;
-        container.appendChild(toast);
-
-        window.setTimeout(() => {
-            toast.style.opacity = "0";
-            toast.style.transform = "translateX(-50%) translateY(-6px)";
-            window.setTimeout(() => toast.remove(), 300);
-        }, duration);
-    } catch (e) {
-        console.warn("showFloatingMessage falhou:", e);
-    }
-}
 function atualizarContadorExerciciosSelecionados() {
     const totalSelecionados = document.querySelectorAll("input[type='checkbox'][data-exercicio-id]:checked").length;
     const contador = document.querySelector("#exercicios-contador");
@@ -260,19 +233,19 @@ async function handleSubmit(event) {
         if (isEditMode()) {
             await api.patch(`/treinos/${getTreinoId()}`, payload);
             setStatus(statusElement, "Treino atualizado com sucesso.", "success");
-                showFloatingMessage("Treino atualizado com sucesso.", "success", SUCCESS_FEEDBACK_MS);
         } else {
             await api.post("/treinos", payload);
             setStatus(statusElement, "Treino criado com sucesso.", "success");
-                showFloatingMessage("Treino criado com sucesso.", "success", SUCCESS_FEEDBACK_MS);
         }
 
+        setFlashMessage(
+            isEditMode() ? "Treino atualizado com sucesso." : "Treino criado com sucesso.",
+            "success"
+        );
         form.reset();
         imagePreviewController.reset("assets/images/TREINOS.png");
         clearSelectedAlunoId();
-        await wait(SUCCESS_FEEDBACK_MS);
-        setStatus(statusElement, "");
-        window.setTimeout(() => redirectTo("/pages/personal/TreinosdoPersonal.html"), 150);
+        redirectTo("/pages/personal/TreinosdoPersonal.html");
     } catch (error) {
         setStatus(statusElement, error.message || "Nao foi possivel salvar o treino.", "error");
     } finally {

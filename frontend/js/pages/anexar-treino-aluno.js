@@ -1,6 +1,6 @@
 import { api } from "../api.js";
-import { getSession, redirectTo } from "../session.js";
-import { createLookup, setStatus, valueOrFallback, attachBackNavigation, attachRouteTargets, resolveImagePath } from "../ui.js";
+import { consumeFlashMessage, getSession, redirectTo, setFlashMessage } from "../session.js";
+import { createLookup, setStatus, valueOrFallback, attachBackNavigation, attachRouteTargets, resolveImagePath, showToast } from "../ui.js";
 
 const grid = document.querySelector("#alunos-grid");
 const statusElement = document.querySelector("#alunos-status");
@@ -71,9 +71,8 @@ async function anexarTreinoAAluno(treinoId, alunoId) {
 
         setStatus(statusElement, "✅ Treino anexado com sucesso!", "success");
         
-        setTimeout(() => {
-            redirectTo("/pages/personal/TreinosdoPersonal.html");
-        }, 1500);
+        setFlashMessage("Treino anexado com sucesso!", "success");
+        redirectTo("/pages/personal/TreinosdoPersonal.html");
     } catch (error) {
         setStatus(statusElement, error.message || "Erro ao anexar treino", "error");
     }
@@ -117,3 +116,8 @@ async function carregarAlunos() {
 attachBackNavigation();
 attachRouteTargets();
 carregarAlunos();
+
+const flashMessage = consumeFlashMessage();
+if (flashMessage?.message) {
+    showToast(flashMessage.message, flashMessage.type || "success");
+}

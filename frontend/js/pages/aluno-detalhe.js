@@ -1,7 +1,11 @@
 import { api } from "../api.js";
 import { getSelectedAlunoId, getSession, redirectTo } from "../session.js";
+<<<<<<< HEAD
 import { createLookup, setStatus, valueOrFallback, attachBackNavigation, attachRouteTargets, resolveImagePath } from "../ui.js";
 import { confirmDanger, showAlert } from "../alerts.js";
+=======
+import { attachBackNavigation, attachRouteTargets, confirmAction, createLookup, resolveImagePath, setStatus, valueOrFallback } from "../ui.js";
+>>>>>>> 6b294a2a5ea36a311e11c2c5a19e4f22e261bce6
 
 const statusElement = document.querySelector("#aluno-detalhe-status");
 const desvincularBtn = document.querySelector("#desvincular-aluno-btn");
@@ -25,12 +29,23 @@ async function desvincularAluno(alunoId) {
         return;
     }
 
+<<<<<<< HEAD
     const confirmacao = await confirmDanger({
         title: "Desvincular aluno?",
         text: "Ele ficará disponível para outros personais.",
         confirmButtonText: "Sim, desvincular",
         cancelButtonText: "Cancelar",
     });
+=======
+    const confirmacao = await confirmAction(
+        "Tem certeza que deseja desvincular este aluno? Ele ficará disponível para outros personais.",
+        {
+            title: "Desvincular aluno",
+            confirmButtonText: "Sim, desvincular",
+            cancelButtonText: "Cancelar",
+        }
+    );
+>>>>>>> 6b294a2a5ea36a311e11c2c5a19e4f22e261bce6
     if (!confirmacao) return;
 
     setStatus(statusElement, "Desvinculando aluno...", "loading");
