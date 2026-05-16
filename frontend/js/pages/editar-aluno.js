@@ -2,6 +2,7 @@ import { api } from "../api.js";
 import { buildFormData, attachImageInputPreview, validateImageFile } from "../forms.js";
 import { getSession, redirectTo } from "../session.js";
 import { attachBackNavigation, populateSelect, setButtonLoading, setImagePreview, setStatus } from "../ui.js";
+import { showAlert } from "../alerts.js";
 
 const form = document.querySelector("#editar-aluno-form");
 const statusElement = document.querySelector("#editar-aluno-status");
@@ -13,31 +14,6 @@ const imagePreviewController = attachImageInputPreview({
     previewElement: previewImage,
     fallback: "assets/images/Aparecer.png"
 });
-
-function showEditSuccessAndGoToProfile() {
-    const overlay = document.createElement("div");
-    overlay.style.position = "fixed";
-    overlay.style.inset = "0";
-    overlay.style.background = "rgba(0, 0, 0, 0.65)";
-    overlay.style.display = "flex";
-    overlay.style.alignItems = "center";
-    overlay.style.justifyContent = "center";
-    overlay.style.zIndex = "9999";
-
-    overlay.innerHTML = `
-        <div style="background:#111; border:1px solid #00a7ff; border-radius:14px; padding:20px; text-align:center; color:#fff; width:min(320px, 90vw); box-shadow:0 10px 30px rgba(0,0,0,.4);">
-            <img src="/frontend/assets/images/edit-row.png" alt="Editado com sucesso" style="width:72px; height:72px; object-fit:contain; margin-bottom:10px;" />
-            <div style="font-size:18px; font-weight:700; margin-bottom:4px;">Editado com sucesso!</div>
-            <div style="font-size:14px; opacity:.9;">Indo para o perfil do aluno...</div>
-        </div>
-    `;
-
-    document.body.appendChild(overlay);
-
-    window.setTimeout(() => {
-        redirectTo("/pages/aluno/PerfildoAluno.html");
-    }, 1400);
-}
 
 async function carregarFormulario() {
     const session = getSession();
@@ -124,8 +100,14 @@ async function handleSubmit(event) {
 
     try {
         await api.patch(`/alunos/${session.user.id}`, buildFormData(payload));
-        setStatus(statusElement, "Perfil atualizado com sucesso.", "success");
-        showEditSuccessAndGoToProfile();
+        await showAlert({
+            icon: "success",
+            title: "Editado com sucesso!",
+            text: "Indo para o perfil do aluno...",
+            timer: 1500,
+            showConfirmButton: false,
+        });
+        redirectTo("/pages/aluno/PerfildoAluno.html");
     } catch (error) {
         setStatus(statusElement, error.message || "Nao foi possivel atualizar o perfil.", "error");
     } finally {

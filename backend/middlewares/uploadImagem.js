@@ -7,9 +7,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const frontendAssetsDir = path.join(__dirname, "../../frontend/assets");
 const uploadRootDir = path.join(frontendAssetsDir, "uploads");
-const maxFileSizeInBytes = 10 * 1024 * 1024;
+const allowedMimeTypes = new Set(["image/jpeg", "image/png"]);
+const maxFileSizeInBytes = 5 * 1024 * 1024;
 const allowedEntities = new Set(["alunos", "personais", "treinos"]);
-const allowedImageExtensions = new Set([".jpg", ".jpeg", ".png", ".webp", ".gif", ".avif", ".heic", ".heif"]);
 
 function ensureDirectory(directoryPath) {
     if (!fs.existsSync(directoryPath)) {
@@ -40,11 +40,8 @@ function buildStorage(entity) {
 }
 
 function fileFilter(req, file, callback) {
-    const mimetype = String(file.mimetype || "");
-    const extension = path.extname(file.originalname || "").toLowerCase();
-
-    if (!mimetype.startsWith("image/") && !allowedImageExtensions.has(extension)) {
-        callback(new Error("Envie uma imagem valida."));
+    if (!allowedMimeTypes.has(file.mimetype)) {
+        callback(new Error("Envie uma imagem JPG ou PNG."));
         return;
     }
 
@@ -71,7 +68,7 @@ export function uploadImagemDinamica(req, res, next) {
 export function tratarErroUpload(error, req, res, next) {
     if (error instanceof multer.MulterError) {
         if (error.code === "LIMIT_FILE_SIZE") {
-            res.status(400).json({ erro: "A imagem deve ter no maximo 10 MB." });
+            res.status(400).json({ erro: "A imagem deve ter no maximo 5 MB." });
             return;
         }
 

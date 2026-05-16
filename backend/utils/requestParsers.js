@@ -69,3 +69,18 @@ export function parseJsonArray(value, fallback = []) {
         throw new Error("Nao foi possivel ler os itens enviados.");
     }
 }
+
+export function normalizeCref(value) {
+    const raw = normalizeRequiredString(value).toUpperCase().trim();
+
+    // Expect variants like: "CREF 123456-G/PE", "123456G/PE", "123456 G/PE"
+    const m = raw.match(/(?:CREF\s*)?0*([0-9]{1,6})\s*[-]?\s*G\s*\/\s*([A-Z]{2})/i);
+    if (!m) {
+        throw new Error("CREF invalido. Formato esperado: CREF 000000-G/UF");
+    }
+
+    const num = String(m[1]).padStart(6, "0");
+    const uf = String(m[2]).toUpperCase();
+
+    return `CREF ${num}-G/${uf}`;
+}

@@ -1,6 +1,7 @@
 import { api } from "../api.js";
 import { getSelectedAlunoId, getSession, redirectTo } from "../session.js";
 import { createLookup, setStatus, valueOrFallback, attachBackNavigation, attachRouteTargets, resolveImagePath } from "../ui.js";
+import { confirmDanger, showAlert } from "../alerts.js";
 
 const statusElement = document.querySelector("#aluno-detalhe-status");
 const desvincularBtn = document.querySelector("#desvincular-aluno-btn");
@@ -24,7 +25,12 @@ async function desvincularAluno(alunoId) {
         return;
     }
 
-    const confirmacao = confirm("Tem certeza que deseja desvincular este aluno? Ele ficará disponível para outros personais.");
+    const confirmacao = await confirmDanger({
+        title: "Desvincular aluno?",
+        text: "Ele ficará disponível para outros personais.",
+        confirmButtonText: "Sim, desvincular",
+        cancelButtonText: "Cancelar",
+    });
     if (!confirmacao) return;
 
     setStatus(statusElement, "Desvinculando aluno...", "loading");
@@ -32,13 +38,21 @@ async function desvincularAluno(alunoId) {
     try {
         await api.delete(`/personais/${session.user.id}/alunos/${alunoId}/desvincular`);
         setStatus(statusElement, "Aluno desvinculado com sucesso! ✅", "success");
-        
-        setTimeout(() => {
-            // Usar window.location para garantir reload completo
-            window.location.href = "/frontend/pages/personal/meusAlunos.html";
-        }, 1000);
+        await showAlert({
+            icon: "success",
+            title: "Aluno desvinculado",
+            text: "O aluno foi removido do seu perfil com sucesso.",
+            timer: 1800,
+            showConfirmButton: false,
+        });
+        window.location.href = "/frontend/pages/personal/meusAlunos.html";
     } catch (error) {
         setStatus(statusElement, error.message || "Erro ao desvincular aluno", "error");
+        showAlert({
+            icon: "error",
+            title: "Erro ao desvincular",
+            text: error.message || "Erro ao desvincular aluno",
+        });
     }
 }
 

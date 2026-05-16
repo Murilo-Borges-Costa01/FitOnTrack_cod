@@ -1,6 +1,6 @@
-import { api } from "../api.js?v=20260516";
-import { saveSession, redirectTo, getSession, clearSession, consumeFlashMessage } from "../session.js?v=20260516";
-import { setButtonLoading, setStatus, attachBackNavigation } from "../ui.js?v=20260516";
+import { api } from "../api.js";
+import { saveSession, redirectTo, getSession, clearSession, consumeFlashMessage } from "../session.js";
+import { setButtonLoading, setStatus, attachBackNavigation } from "../ui.js";
 
 const loginForm = document.querySelector("#login-form");
 const statusElement = document.querySelector("#login-status");

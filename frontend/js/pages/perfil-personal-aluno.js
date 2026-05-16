@@ -1,6 +1,7 @@
 import { api } from "../api.js";
 import { getSession, redirectTo } from "../session.js";
 import { setStatus, valueOrFallback, attachBackNavigation, attachRouteTargets, resolveImagePath } from "../ui.js";
+import { confirmDanger, showAlert } from "../alerts.js";
 
 const perfilContainer = document.querySelector("#perfil-personal-container");
 const statusElement = document.querySelector("#perfil-personal-status");
@@ -71,7 +72,12 @@ async function desvinculaPersonal(personalId) {
         return;
     }
 
-    const confirmacao = confirm("Tem certeza que deseja desvincular deste personal? Suas informações serão mantidas.");
+    const confirmacao = await confirmDanger({
+        title: "Desvincular do personal?",
+        text: "Suas informações serão mantidas, mas você ficará sem personal vinculado.",
+        confirmButtonText: "Sim, desvincular",
+        cancelButtonText: "Cancelar",
+    });
     if (!confirmacao) return;
 
     setStatus(statusElement, "Desvinculando...", "loading");
@@ -79,6 +85,13 @@ async function desvinculaPersonal(personalId) {
     try {
         await api.delete(`/alunos/${session.user.id}/desvincular-personal`);
         setStatus(statusElement, "Desvinculado com sucesso! ✅", "success");
+        await showAlert({
+            icon: "success",
+            title: "Desvinculado com sucesso",
+            text: "Você foi removido do personal atual.",
+            timer: 1800,
+            showConfirmButton: false,
+        });
         
         setTimeout(() => {
             // Usar window.location para garantir reload completo
@@ -86,6 +99,11 @@ async function desvinculaPersonal(personalId) {
         }, 1000);
     } catch (error) {
         setStatus(statusElement, error.message || "Erro ao desvincular", "error");
+        showAlert({
+            icon: "error",
+            title: "Erro ao desvincular",
+            text: error.message || "Não foi possível desvincular do personal.",
+        });
     }
 }
 

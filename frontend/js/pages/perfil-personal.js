@@ -1,6 +1,7 @@
 import { api } from "../api.js";
 import { clearSession, getSession, redirectTo } from "../session.js";
 import { attachRouteTargets, createLookup, setImagePreview, setStatus, valueOrFallback } from "../ui.js";
+import { confirmDanger, showAlert } from "../alerts.js";
 
 const statusElement = document.querySelector("#perfil-personal-status");
 const logoutButton = document.querySelector("#perfil-personal-logout");
@@ -43,15 +44,23 @@ async function carregarPerfil() {
         setStatus(statusElement, "", "info");
     } catch (error) {
         setStatus(statusElement, error.message || "Nao foi possivel carregar o perfil.", "error");
+        showAlert({
+            icon: "error",
+            title: "Erro ao carregar o perfil",
+            text: error.message || "Nao foi possivel carregar o perfil.",
+        });
     }
 }
 
 async function deletarConta() {
     const session = getSession();
-    
-    const confirmacao = confirm(
-        "Tem certeza que deseja deletar sua conta? Essa ação é irreversível. Seus alunos serão desvinculados e poderão receber novos personais. Todos os treinos e avaliações serão deletados."
-    );
+
+    const confirmacao = await confirmDanger({
+        title: "Deletar conta?",
+        text: "Essa ação é irreversível. Seus alunos serão desvinculados e poderão receber novos personais. Todos os treinos e avaliações serão deletados.",
+        confirmButtonText: "Sim, deletar",
+        cancelButtonText: "Cancelar",
+    });
     
     if (!confirmacao) return;
 
@@ -60,16 +69,26 @@ async function deletarConta() {
     try {
         await api.delete(`/personais/${session.user.id}`);
         setStatus(statusElement, "Conta deletada com sucesso! Redirecionando...", "success");
-        setTimeout(() => {
-            clearSession();
-            redirectTo("/");
-        }, 2000);
+        await showAlert({
+            icon: "success",
+            title: "Conta deletada",
+            text: "Sua conta foi removida com sucesso.",
+            timer: 1800,
+            showConfirmButton: false,
+        });
+        clearSession();
+        redirectTo("/");
     } catch (error) {
         setStatus(
             statusElement,
             error.message || "Nao foi possivel deletar a conta.",
             "error"
         );
+        showAlert({
+            icon: "error",
+            title: "Erro ao deletar conta",
+            text: error.message || "Nao foi possivel deletar a conta.",
+        });
     }
 }
 

@@ -2,13 +2,13 @@ import bcrypt from "bcryptjs";
 import { Personal } from "../models/personalM.js";
 import { Aluno } from "../models/alunoM.js";
 import { getUploadedImagePath } from "../middlewares/uploadImagem.js";
-import { normalizeRequiredString, normalizeOptionalString, parseRequiredNumber } from "../utils/requestParsers.js";
+import { normalizeRequiredString, normalizeOptionalString, parseRequiredNumber, normalizeCref } from "../utils/requestParsers.js";
 
 function buildPersonalPayload(body, file, { isUpdate = false } = {}) {
     const payload = {};
 
     if (!isUpdate || body.cref !== undefined) {
-        payload.cref = normalizeRequiredString(body.cref);
+        payload.cref = normalizeCref(body.cref);
     }
 
     if (!isUpdate || body.nome !== undefined) {

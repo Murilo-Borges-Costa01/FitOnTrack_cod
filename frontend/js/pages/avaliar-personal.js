@@ -1,6 +1,7 @@
 import { api } from "../api.js";
 import { getSession, redirectTo } from "../session.js";
 import { setStatus } from "../ui.js";
+import { showAlert, showToast } from "../alerts.js";
 
 // avaliar-personal.js - Logic for student rating their personal trainer
 
@@ -51,6 +52,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     if (!session || !session.user) {
         setStatusMessage(statusElement, "Você não está autenticado", "error");
+        showAlert({
+            icon: "error",
+            title: "Você não está autenticado",
+            text: "Faça login novamente para avaliar o personal.",
+        });
         setTimeout(() => {
             redirectTo('pages/cadastro/inicial.html');
         }, 2000);
@@ -70,6 +76,11 @@ async function carregarPessoalInfo() {
 
         if (!aluno.personal_id) {
             setStatusMessage(statusElement, "Você não tem um personal vinculado", "error");
+            showAlert({
+                icon: "warning",
+                title: "Nenhum personal vinculado",
+                text: "Você precisa estar vinculado a um personal para enviar uma avaliação.",
+            });
             setTimeout(() => window.history.back(), 2000);
             return;
         }
@@ -96,6 +107,7 @@ async function carregarPessoalInfo() {
             const minhaAvaliacao = await api.get(`/personais/${aluno.personal_id}/minha-avaliacao`);
             if (minhaAvaliacao) {
                 setStatusMessage(statusElement, "ℹ️ Você já avaliou este personal. Atualize seus dados e clique em Enviar novamente.", "info");
+                showToast("Você já avaliou este personal.", "info", 3200);
                 document.getElementById('input-estrelas').value = minhaAvaliacao.estrelas;
                 document.getElementById('comentario').value = minhaAvaliacao.comentario || '';
                 atualizarExibicaoEstrelas(minhaAvaliacao.estrelas);
@@ -169,6 +181,11 @@ function setupForm() {
 
         if (!estrelas) {
             setStatusMessage(statusElement, "Por favor, selecione uma classificação", "error");
+            showAlert({
+                icon: "warning",
+                title: "Classificação obrigatória",
+                text: "Selecione uma quantidade de estrelas antes de enviar a avaliação.",
+            });
             return;
         }
 
@@ -200,17 +217,27 @@ async function enviarAvaliacao(estrelas, comentario) {
         console.log('Resposta:', resposta);
 
         setStatusMessage(statusElement, "Avaliação enviada com sucesso! Obrigado por avaliar.", "success");
+        await showAlert({
+            icon: "success",
+            title: "Avaliação enviada!",
+            text: "Obrigado por avaliar seu personal.",
+            timer: 1800,
+            showConfirmButton: false,
+        });
 
         // Limpa form após sucesso
         document.getElementById('form-avaliacao').reset();
         atualizarExibicaoEstrelas(0);
         document.getElementById('estrelas-selecionadas').textContent = 'Selecione uma classificação';
 
-        setTimeout(() => {
-            redirectTo("pages/aluno/meu-personal.html");
-        }, 2000);
+        redirectTo("pages/aluno/meu-personal.html");
     } catch (error) {
         console.error('Erro ao enviar avaliação:', error);
         setStatusMessage(statusElement, error.message || "Erro ao enviar avaliação", "error");
+        showAlert({
+            icon: "error",
+            title: "Erro ao enviar avaliação",
+            text: error.message || "Não foi possível enviar a avaliação.",
+        });
     }
 }
