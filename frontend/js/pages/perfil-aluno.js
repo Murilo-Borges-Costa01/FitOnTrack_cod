@@ -2,11 +2,9 @@ import { api } from "../api.js";
 import { clearSession, getSession, redirectTo } from "../session.js";
 import {
   attachRouteTargets,
-  confirmAction,
   createLookup,
   setImagePreview,
   setStatus,
-  showToast,
   valueOrFallback,
 } from "../ui.js";
 import { confirmDanger, showAlert } from "../alerts.js";
@@ -71,7 +69,6 @@ async function carregarPerfil() {
 
 async function deletarConta() {
   const session = getSession();
-<<<<<<< HEAD
 
   const confirmacao = await confirmDanger({
     title: "Deletar conta?",
@@ -79,18 +76,7 @@ async function deletarConta() {
     confirmButtonText: "Sim, deletar",
     cancelButtonText: "Cancelar",
   });
-=======
-  
-  const confirmacao = await confirmAction(
-    "Tem certeza que deseja deletar sua conta? Essa ação é irreversível e todos os seus treinos e avaliações serão deletados.",
-    {
-      title: "Deletar conta",
-      confirmButtonText: "Sim, deletar",
-      cancelButtonText: "Cancelar",
-    }
-  );
->>>>>>> 6b294a2a5ea36a311e11c2c5a19e4f22e261bce6
-  
+
   if (!confirmacao) return;
 
   setStatus(statusElement, "Deletando conta...", "loading");
@@ -98,7 +84,7 @@ async function deletarConta() {
   try {
     await api.delete(`/alunos/${session.user.id}`);
     setStatus(statusElement, "Conta deletada com sucesso! Redirecionando...", "success");
-<<<<<<< HEAD
+
     await showAlert({
       icon: "success",
       title: "Conta deletada",
@@ -108,13 +94,6 @@ async function deletarConta() {
     });
     clearSession();
     redirectTo("/");
-=======
-    showToast("Conta deletada com sucesso.", "success");
-    setTimeout(() => {
-      clearSession();
-      redirectTo("/");
-    }, 2000);
->>>>>>> 6b294a2a5ea36a311e11c2c5a19e4f22e261bce6
   } catch (error) {
     setStatus(
       statusElement,

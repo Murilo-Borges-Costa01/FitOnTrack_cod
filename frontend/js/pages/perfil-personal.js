@@ -1,12 +1,7 @@
 import { api } from "../api.js";
-<<<<<<< HEAD
-import { clearSession, getSession, redirectTo } from "../session.js";
-import { attachRouteTargets, createLookup, setImagePreview, setStatus, valueOrFallback } from "../ui.js";
-import { confirmDanger, showAlert } from "../alerts.js";
-=======
 import { clearSession, consumeFlashMessage, getSession, redirectTo } from "../session.js";
-import { attachRouteTargets, confirmAction, createLookup, setImagePreview, setStatus, showToast, valueOrFallback } from "../ui.js";
->>>>>>> 6b294a2a5ea36a311e11c2c5a19e4f22e261bce6
+import { attachRouteTargets, createLookup, setImagePreview, setStatus, valueOrFallback } from "../ui.js";
+import { confirmDanger, showAlert, showToast } from "../alerts.js";
 
 const statusElement = document.querySelector("#perfil-personal-status");
 const logoutButton = document.querySelector("#perfil-personal-logout");
@@ -59,25 +54,12 @@ async function carregarPerfil() {
 
 async function deletarConta() {
     const session = getSession();
-<<<<<<< HEAD
-
     const confirmacao = await confirmDanger({
         title: "Deletar conta?",
         text: "Essa ação é irreversível. Seus alunos serão desvinculados e poderão receber novos personais. Todos os treinos e avaliações serão deletados.",
         confirmButtonText: "Sim, deletar",
         cancelButtonText: "Cancelar",
     });
-=======
-    
-    const confirmacao = await confirmAction(
-        "Tem certeza que deseja deletar sua conta? Essa ação é irreversível. Seus alunos serão desvinculados e poderão receber novos personais. Todos os treinos e avaliações serão deletados.",
-        {
-            title: "Deletar conta",
-            confirmButtonText: "Sim, deletar",
-            cancelButtonText: "Cancelar",
-        }
-    );
->>>>>>> 6b294a2a5ea36a311e11c2c5a19e4f22e261bce6
     
     if (!confirmacao) return;
 
@@ -86,7 +68,6 @@ async function deletarConta() {
     try {
         await api.delete(`/personais/${session.user.id}`);
         setStatus(statusElement, "Conta deletada com sucesso! Redirecionando...", "success");
-<<<<<<< HEAD
         await showAlert({
             icon: "success",
             title: "Conta deletada",
@@ -96,13 +77,6 @@ async function deletarConta() {
         });
         clearSession();
         redirectTo("/");
-=======
-        showToast("Conta deletada com sucesso.", "success");
-        setTimeout(() => {
-            clearSession();
-            redirectTo("/");
-        }, 2000);
->>>>>>> 6b294a2a5ea36a311e11c2c5a19e4f22e261bce6
     } catch (error) {
         setStatus(
             statusElement,

@@ -1,12 +1,7 @@
 import { api } from "../api.js";
-<<<<<<< HEAD
-import { getSession, redirectTo } from "../session.js";
-import { setStatus, valueOrFallback, attachBackNavigation, attachRouteTargets, resolveImagePath } from "../ui.js";
-import { confirmDanger, showAlert } from "../alerts.js";
-=======
 import { consumeFlashMessage, getSession, redirectTo } from "../session.js";
-import { attachBackNavigation, attachRouteTargets, confirmAction, resolveImagePath, setStatus, showToast, valueOrFallback } from "../ui.js";
->>>>>>> 6b294a2a5ea36a311e11c2c5a19e4f22e261bce6
+import { setStatus, valueOrFallback, attachBackNavigation, attachRouteTargets, resolveImagePath } from "../ui.js";
+import { confirmDanger, showAlert, showToast } from "../alerts.js";
 
 const perfilContainer = document.querySelector("#perfil-personal-container");
 const statusElement = document.querySelector("#perfil-personal-status");
@@ -77,14 +72,9 @@ async function desvinculaPersonal(personalId) {
         return;
     }
 
-<<<<<<< HEAD
     const confirmacao = await confirmDanger({
         title: "Desvincular do personal?",
         text: "Suas informações serão mantidas, mas você ficará sem personal vinculado.",
-=======
-    const confirmacao = await confirmAction("Tem certeza que deseja desvincular deste personal? Suas informações serão mantidas.", {
-        title: "Desvincular personal",
->>>>>>> 6b294a2a5ea36a311e11c2c5a19e4f22e261bce6
         confirmButtonText: "Sim, desvincular",
         cancelButtonText: "Cancelar",
     });
